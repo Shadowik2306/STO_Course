@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FactoryDataModels\FactoryDataModels.csproj" />
+    <ProjectReference Include="..\STODataModels\STODataModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>

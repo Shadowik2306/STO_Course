@@ -18,10 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FactoryContracts\FactoryContracts.csproj" />
-    <ProjectReference Include="..\FactoryBusinessLogic\FactoryBusinessLogic.csproj" />
-    <ProjectReference Include="..\FactoryContracts\FactoryContracts.csproj" />
-    <ProjectReference Include="..\FactoryDatabaseImplement\FactoryDatabaseImplement.csproj" />
+    <ProjectReference Include="..\STOContracts\STOContracts.csproj" />
+    <ProjectReference Include="..\STOBusinessLogic\STOBusinessLogic.csproj" />
+    <ProjectReference Include="..\STODatabaseImplement\STODatabaseImplement.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,10 @@
-using Factory;
+using STO;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using System;
 
-namespace FactoryView
+namespace STOView
 {
 	internal static class Program
 	{

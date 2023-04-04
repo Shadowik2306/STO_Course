@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace STODataModels
+namespace STODataModels.Models
 {
-	public interface IId
-	{
-		int Id { get; }
-	}
+    public interface IWorkDurationModel : IId
+    {
+        int Duration { get; }
+    }
 }
