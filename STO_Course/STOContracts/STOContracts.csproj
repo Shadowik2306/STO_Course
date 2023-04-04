@@ -10,4 +10,12 @@
     <ProjectReference Include="..\FactoryDataModels\FactoryDataModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BindingModels\" />
+    <Folder Include="BusinessLogicsContracts\" />
+    <Folder Include="SearchModels\" />
+    <Folder Include="StoragesContracts\" />
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>

@@ -20,4 +20,9 @@
     <ProjectReference Include="..\FactoryDataModels\FactoryDataModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Implements\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>
