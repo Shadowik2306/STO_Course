@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Implements\**" />
+    <Compile Remove="OfficePackage\**" />
+    <EmbeddedResource Remove="Implements\**" />
+    <EmbeddedResource Remove="OfficePackage\**" />
+    <None Remove="Implements\**" />
+    <None Remove="OfficePackage\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FactoryContracts\FactoryContracts.csproj" />
+    <ProjectReference Include="..\FactoryContracts\FactoryContracts.csproj" />
+  </ItemGroup>
+
+</Project>

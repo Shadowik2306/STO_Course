@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="5.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FactoryContracts\FactoryContracts.csproj" />
+    <ProjectReference Include="..\FactoryBusinessLogic\FactoryBusinessLogic.csproj" />
+    <ProjectReference Include="..\FactoryContracts\FactoryContracts.csproj" />
+    <ProjectReference Include="..\FactoryDatabaseImplement\FactoryDatabaseImplement.csproj" />
+  </ItemGroup>
+
+</Project>
