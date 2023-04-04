@@ -7,15 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FactoryDataModels\FactoryDataModels.csproj" />
     <ProjectReference Include="..\STODataModels\STODataModels.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="BindingModels\" />
-    <Folder Include="BusinessLogicsContracts\" />
-    <Folder Include="SearchModels\" />
-    <Folder Include="StoragesContracts\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
 </Project>

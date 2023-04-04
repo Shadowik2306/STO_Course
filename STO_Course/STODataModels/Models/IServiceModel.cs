@@ -3,5 +3,6 @@
     public interface IServiceModel : IId
     {
         string ServiceDescription { get; }
+        int CarId { get; }
     }
 }
