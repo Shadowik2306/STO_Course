@@ -1,4 +1,4 @@
-﻿namespace Factory
+﻿namespace STO
 {
 	partial class Form1
 	{
