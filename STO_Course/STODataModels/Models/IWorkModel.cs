@@ -9,5 +9,6 @@
         double StorekeeperId { get; }
 
         Dictionary<int, (ISpareModel, int)> WorkSpares { get; }
+        Dictionary<int, (IMaintenanceModel, int)> WorkMaintenances { get; }
     }
 }
