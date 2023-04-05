@@ -5,6 +5,6 @@
         int EmployerId { get; }
         double Cost { get; }
         DateTime DateCreate { get; }
-        Dictionary<int, (ICarModel, int)> MaintenanceCars { get; }
+        Dictionary<int, (ISpareModel, int)> MaintenanceCars { get; }
     }
 }

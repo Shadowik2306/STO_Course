@@ -11,6 +11,6 @@ namespace STOContracts.ViewModels
         public double Cost { get; set; }
         [DisplayName("Дата создания")]
         public DateTime DateCreate { get; set; }
-        public Dictionary<int, (ICarModel, int)> MaintenanceCars { get; set; } = new();
+        public Dictionary<int, (ISpareModel, int)> MaintenanceCars { get; set; } = new();
     }
 }

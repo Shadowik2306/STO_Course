@@ -6,7 +6,7 @@
 
         double Price { get; }
 
-        double StorekeeperId { get; }
+        int StorekeeperId { get; }
 
         Dictionary<int, (ISpareModel, int)> WorkSpares { get; }
         Dictionary<int, (IMaintenanceModel, int)> WorkMaintenances { get; }
