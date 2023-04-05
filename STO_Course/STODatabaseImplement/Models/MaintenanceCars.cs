@@ -3,15 +3,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace STODatabaseImplement.Models
 {
-    public class CarMaintenance
+    public class MaintenanceCars
     {
         public int Id { get; set; }
 
         [Required]
-        public int ReinforcedId { get; set; }
+        public int MaintenanceId { get; set; }
 
         [Required]
-        public int ComponentId { get; set; }
+        public int CarId { get; set; }
+        [Required]
+        public int Count { get; set; }
 
         public virtual Car Car { get; set; } = new();
 
