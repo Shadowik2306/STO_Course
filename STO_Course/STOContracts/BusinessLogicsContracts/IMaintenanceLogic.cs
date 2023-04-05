@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using STOContracts.BindingModels;
+using STOContracts.SearchModels;
+using STOContracts.ViewModels;
 
 namespace STOContracts.BusinessLogicsContracts
 {
-    internal interface IMaintenanceLogic
+    public interface IMaintenanceLogic
     {
+        List<MaintenanceViewModel>? ReadList(MaintenanceSearchModel? model);
+        MaintenanceViewModel? ReadElement(MaintenanceSearchModel? model);
+        bool Create(MaintenanceBindingModel model);
+        bool Update(MaintenanceBindingModel model);
+        bool Delete(MaintenanceBindingModel model);
     }
 }

@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using STOContracts.BindingModels;
+using STOContracts.SearchModels;
+using STOContracts.ViewModels;
 
 namespace STOContracts.BusinessLogicsContracts
 {
-    internal interface ICarLogic
+    public interface ICarLogic
     {
+        List<CarViewModel>? ReadList(CarSearchModel? model);
+        CarViewModel? ReadElement(CarSearchModel? model);
+        bool Create(CarBindingModel model);
+        bool Update(CarBindingModel model);
+        bool Delete(CarBindingModel model);
     }
 }
