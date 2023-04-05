@@ -4,6 +4,7 @@
     {
         string Brand { get; }
         string Model { get; }
+        string VIN {  get; }
         Dictionary<int, (ISpareModel, int)> CarSpares { get; }
     }
 }
