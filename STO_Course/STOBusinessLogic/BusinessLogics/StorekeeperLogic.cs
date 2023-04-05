@@ -7,19 +7,19 @@ using STOContracts.ViewModels;
 
 namespace STOBusinessLogic.BusinessLogics
 {
-    public class CarLogic : ICarLogic
+    public class StorekeeperLogic : IStorekeeperLogic
     {
         private readonly ILogger _logger;
-        private readonly ICarStorage _carStorage;
-        public CarLogic(ILogger logger, ICarStorage carStorage)
+        private readonly IStorekeeperStorage _storekeeperStorage;
+        public StorekeeperLogic(ILogger logger, IStorekeeperStorage storekeeperStorage)
         {
             _logger = logger;
-            _carStorage = carStorage;
+            _storekeeperStorage = storekeeperStorage;
         }
-        public List<CarViewModel>? ReadList(CarSearchModel? model)
+        public List<StorekeeperViewModel>? ReadList(StorekeeperSearchModel? model)
         {
-            _logger.LogInformation("ReadList.CarId:{ CarId}", model?.Id);
-            var list = model == null ? _carStorage.GetFullList() : _carStorage.GetFilteredList(model);
+            _logger.LogInformation("ReadList.StorekeeperId:{Id}", model?.Id);
+            var list = model == null ? _storekeeperStorage.GetFullList() : _storekeeperStorage.GetFilteredList(model);
             if (list == null)
             {
                 _logger.LogWarning("ReadList return null list");
@@ -28,14 +28,14 @@ namespace STOBusinessLogic.BusinessLogics
             _logger.LogInformation("ReadList. Count:{Count}", list.Count);
             return list;
         }
-        public CarViewModel? ReadElement(CarSearchModel model)
+        public StorekeeperViewModel? ReadElement(StorekeeperSearchModel model)
         {
             if (model == null)
             {
                 throw new ArgumentNullException(nameof(model));
             }
-            _logger.LogInformation("ReadElement. CarId:{ CarId}", model?.Id);
-            var element = _carStorage.GetElement(model);
+            _logger.LogInformation("ReadElement. StorekeeperId:{Id}", model?.Id);
+            var element = _storekeeperStorage.GetElement(model);
             if (element == null)
             {
                 _logger.LogWarning("ReadElement element not found");
@@ -45,38 +45,38 @@ namespace STOBusinessLogic.BusinessLogics
             return element;
         }
 
-        public bool Create(CarBindingModel model)
+        public bool Create(StorekeeperBindingModel model)
         {
             CheckModel(model);
-            if (_carStorage.Insert(model) == null)
+            if (_storekeeperStorage.Insert(model) == null)
             {
                 _logger.LogWarning("Insert operation failed");
                 return false;
             }
             return true;
         }
-        public bool Update(CarBindingModel model)
+        public bool Update(StorekeeperBindingModel model)
         {
             CheckModel(model);
-            if (_carStorage.Update(model) == null)
+            if (_storekeeperStorage.Update(model) == null)
             {
                 _logger.LogWarning("Update operation failed");
                 return false;
             }
             return true;
         }
-        public bool Delete(CarBindingModel model)
+        public bool Delete(StorekeeperBindingModel model)
         {
             CheckModel(model, false);
             _logger.LogInformation("Delete. Id:{Id}", model.Id);
-            if (_carStorage.Delete(model) == null)
+            if (_storekeeperStorage.Delete(model) == null)
             {
                 _logger.LogWarning("Delete operation failed");
                 return false;
             }
             return true;
         }
-        private void CheckModel(CarBindingModel model, bool withParams = true)
+        private void CheckModel(StorekeeperBindingModel model, bool withParams = true)
         {
             if (model == null)
             {
@@ -86,27 +86,28 @@ namespace STOBusinessLogic.BusinessLogics
             {
                 return;
             }
-            if (string.IsNullOrEmpty(model.Brand))
+            if (string.IsNullOrEmpty(model.Login))
             {
-                throw new ArgumentNullException("Нет бренда автомобиля", nameof(model.Brand));
+                throw new ArgumentNullException("Нет логина кладовщика", nameof(model.Login));
             }
-            if (string.IsNullOrEmpty(model.Model))
+            if (string.IsNullOrEmpty(model.Password))
             {
-                throw new ArgumentNullException("Нет модели автомобиля", nameof(model.Model));
+                throw new ArgumentNullException("Нет пароля кладовщика", nameof(model.Password));
             }
-            if (string.IsNullOrEmpty(model.VIN))
+            if (string.IsNullOrEmpty(model.Email))
             {
-                throw new ArgumentNullException("Нет VIN автомобиля", nameof(model.Model));
+                throw new ArgumentNullException("Нет почты кладовщика", nameof(model.Email));
             }
-            var element = _carStorage.GetElement(new CarSearchModel
+            var element = _storekeeperStorage.GetElement(new StorekeeperSearchModel
             {
-               VIN  = model.VIN
+               Login  = model.Login,
+               Email = model.Email
             });
             if (element != null && element.Id != model.Id)
             {
-                throw new InvalidOperationException("Автомобиль с таким VIN уже есть");
+                throw new InvalidOperationException("Кладовщик с такими параметрами уже есть");
             }
-            _logger.LogInformation("Car. Id:{ Id}.CarBrand:{CarBrand}.CarModel:{CarModel}.CarVIN:{CarVIN}", model?.Id, model?.Brand, model?.Brand, model?.VIN);
+            _logger.LogInformation("Storekeeper. Id:{ Id}.Login:{Login}.Email:{Email}.Password:{Password}", model?.Id, model?.Login, model?.Email, model?.Password);
         }
     }
 }

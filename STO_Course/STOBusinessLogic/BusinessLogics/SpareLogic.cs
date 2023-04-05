@@ -7,19 +7,19 @@ using STOContracts.ViewModels;
 
 namespace STOBusinessLogic.BusinessLogics
 {
-    public class CarLogic : ICarLogic
+    public class SpareLogic : ISpareLogic
     {
         private readonly ILogger _logger;
-        private readonly ICarStorage _carStorage;
-        public CarLogic(ILogger logger, ICarStorage carStorage)
+        private readonly ISpareStorage _spareStorage;
+        public SpareLogic(ILogger logger, ISpareStorage spareStorage)
         {
             _logger = logger;
-            _carStorage = carStorage;
+            _spareStorage = spareStorage;
         }
-        public List<CarViewModel>? ReadList(CarSearchModel? model)
+        public List<SpareViewModel>? ReadList(SpareSearchModel? model)
         {
-            _logger.LogInformation("ReadList.CarId:{ CarId}", model?.Id);
-            var list = model == null ? _carStorage.GetFullList() : _carStorage.GetFilteredList(model);
+            _logger.LogInformation("ReadList.SpareId:{Id}", model?.Id);
+            var list = model == null ? _spareStorage.GetFullList() : _spareStorage.GetFilteredList(model);
             if (list == null)
             {
                 _logger.LogWarning("ReadList return null list");
@@ -28,14 +28,14 @@ namespace STOBusinessLogic.BusinessLogics
             _logger.LogInformation("ReadList. Count:{Count}", list.Count);
             return list;
         }
-        public CarViewModel? ReadElement(CarSearchModel model)
+        public SpareViewModel? ReadElement(SpareSearchModel model)
         {
             if (model == null)
             {
                 throw new ArgumentNullException(nameof(model));
             }
-            _logger.LogInformation("ReadElement. CarId:{ CarId}", model?.Id);
-            var element = _carStorage.GetElement(model);
+            _logger.LogInformation("ReadElement. SpareId:{Id}", model?.Id);
+            var element = _spareStorage.GetElement(model);
             if (element == null)
             {
                 _logger.LogWarning("ReadElement element not found");
@@ -45,38 +45,38 @@ namespace STOBusinessLogic.BusinessLogics
             return element;
         }
 
-        public bool Create(CarBindingModel model)
+        public bool Create(SpareBindingModel model)
         {
             CheckModel(model);
-            if (_carStorage.Insert(model) == null)
+            if (_spareStorage.Insert(model) == null)
             {
                 _logger.LogWarning("Insert operation failed");
                 return false;
             }
             return true;
         }
-        public bool Update(CarBindingModel model)
+        public bool Update(SpareBindingModel model)
         {
             CheckModel(model);
-            if (_carStorage.Update(model) == null)
+            if (_spareStorage.Update(model) == null)
             {
                 _logger.LogWarning("Update operation failed");
                 return false;
             }
             return true;
         }
-        public bool Delete(CarBindingModel model)
+        public bool Delete(SpareBindingModel model)
         {
             CheckModel(model, false);
             _logger.LogInformation("Delete. Id:{Id}", model.Id);
-            if (_carStorage.Delete(model) == null)
+            if (_spareStorage.Delete(model) == null)
             {
                 _logger.LogWarning("Delete operation failed");
                 return false;
             }
             return true;
         }
-        private void CheckModel(CarBindingModel model, bool withParams = true)
+        private void CheckModel(SpareBindingModel model, bool withParams = true)
         {
             if (model == null)
             {
@@ -86,27 +86,24 @@ namespace STOBusinessLogic.BusinessLogics
             {
                 return;
             }
-            if (string.IsNullOrEmpty(model.Brand))
+            if (string.IsNullOrEmpty(model.Name))
             {
-                throw new ArgumentNullException("Нет бренда автомобиля", nameof(model.Brand));
+                throw new ArgumentNullException("Нет название детали", nameof(model.Name));
             }
-            if (string.IsNullOrEmpty(model.Model))
+            if (model.Price <= 0)
             {
-                throw new ArgumentNullException("Нет модели автомобиля", nameof(model.Model));
+                throw new ArgumentNullException("Неправильная цена детали", nameof(model.Price));
             }
-            if (string.IsNullOrEmpty(model.VIN))
+           
+            var element = _spareStorage.GetElement(new SpareSearchModel
             {
-                throw new ArgumentNullException("Нет VIN автомобиля", nameof(model.Model));
-            }
-            var element = _carStorage.GetElement(new CarSearchModel
-            {
-               VIN  = model.VIN
+               Name = model.Name
             });
             if (element != null && element.Id != model.Id)
             {
-                throw new InvalidOperationException("Автомобиль с таким VIN уже есть");
+                throw new InvalidOperationException("Деталь с таким названием уже есть");
             }
-            _logger.LogInformation("Car. Id:{ Id}.CarBrand:{CarBrand}.CarModel:{CarModel}.CarVIN:{CarVIN}", model?.Id, model?.Brand, model?.Brand, model?.VIN);
+            _logger.LogInformation("Spare. Id:{ Id}.Name:{Name}.Price:{Price}", model?.Id, model?.Name, model?.Price);
         }
     }
 }

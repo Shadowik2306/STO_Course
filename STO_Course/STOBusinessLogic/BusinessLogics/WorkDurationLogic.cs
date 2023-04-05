@@ -7,19 +7,19 @@ using STOContracts.ViewModels;
 
 namespace STOBusinessLogic.BusinessLogics
 {
-    public class CarLogic : ICarLogic
+    public class WorkDurationLogic : IWorkDurationLogic
     {
         private readonly ILogger _logger;
-        private readonly ICarStorage _carStorage;
-        public CarLogic(ILogger logger, ICarStorage carStorage)
+        private readonly IWorkDurationStorage _workDurationStorage;
+        public WorkDurationLogic(ILogger logger, IWorkDurationStorage workDurationStorage)
         {
             _logger = logger;
-            _carStorage = carStorage;
+            _workDurationStorage = workDurationStorage;
         }
-        public List<CarViewModel>? ReadList(CarSearchModel? model)
+        public List<WorkDurationViewModel>? ReadList(WorkDurationSearchModel? model)
         {
-            _logger.LogInformation("ReadList.CarId:{ CarId}", model?.Id);
-            var list = model == null ? _carStorage.GetFullList() : _carStorage.GetFilteredList(model);
+            _logger.LogInformation("ReadList.WorkDurationId:{Id}", model?.Id);
+            var list = model == null ? _workDurationStorage.GetFullList() : _workDurationStorage.GetFilteredList(model);
             if (list == null)
             {
                 _logger.LogWarning("ReadList return null list");
@@ -28,14 +28,14 @@ namespace STOBusinessLogic.BusinessLogics
             _logger.LogInformation("ReadList. Count:{Count}", list.Count);
             return list;
         }
-        public CarViewModel? ReadElement(CarSearchModel model)
+        public WorkDurationViewModel? ReadElement(WorkDurationSearchModel model)
         {
             if (model == null)
             {
                 throw new ArgumentNullException(nameof(model));
             }
-            _logger.LogInformation("ReadElement. CarId:{ CarId}", model?.Id);
-            var element = _carStorage.GetElement(model);
+            _logger.LogInformation("ReadElement. WorkDurationId:{Id}", model?.Id);
+            var element = _workDurationStorage.GetElement(model);
             if (element == null)
             {
                 _logger.LogWarning("ReadElement element not found");
@@ -45,38 +45,38 @@ namespace STOBusinessLogic.BusinessLogics
             return element;
         }
 
-        public bool Create(CarBindingModel model)
+        public bool Create(WorkDurationBindingModel model)
         {
             CheckModel(model);
-            if (_carStorage.Insert(model) == null)
+            if (_workDurationStorage.Insert(model) == null)
             {
                 _logger.LogWarning("Insert operation failed");
                 return false;
             }
             return true;
         }
-        public bool Update(CarBindingModel model)
+        public bool Update(WorkDurationBindingModel model)
         {
             CheckModel(model);
-            if (_carStorage.Update(model) == null)
+            if (_workDurationStorage.Update(model) == null)
             {
                 _logger.LogWarning("Update operation failed");
                 return false;
             }
             return true;
         }
-        public bool Delete(CarBindingModel model)
+        public bool Delete(WorkDurationBindingModel model)
         {
             CheckModel(model, false);
             _logger.LogInformation("Delete. Id:{Id}", model.Id);
-            if (_carStorage.Delete(model) == null)
+            if (_workDurationStorage.Delete(model) == null)
             {
                 _logger.LogWarning("Delete operation failed");
                 return false;
             }
             return true;
         }
-        private void CheckModel(CarBindingModel model, bool withParams = true)
+        private void CheckModel(WorkDurationBindingModel model, bool withParams = true)
         {
             if (model == null)
             {
@@ -86,27 +86,11 @@ namespace STOBusinessLogic.BusinessLogics
             {
                 return;
             }
-            if (string.IsNullOrEmpty(model.Brand))
+            if (model.Duration < 0)
             {
-                throw new ArgumentNullException("Нет бренда автомобиля", nameof(model.Brand));
+                throw new ArgumentNullException("Нет длительности", nameof(model.Duration));
             }
-            if (string.IsNullOrEmpty(model.Model))
-            {
-                throw new ArgumentNullException("Нет модели автомобиля", nameof(model.Model));
-            }
-            if (string.IsNullOrEmpty(model.VIN))
-            {
-                throw new ArgumentNullException("Нет VIN автомобиля", nameof(model.Model));
-            }
-            var element = _carStorage.GetElement(new CarSearchModel
-            {
-               VIN  = model.VIN
-            });
-            if (element != null && element.Id != model.Id)
-            {
-                throw new InvalidOperationException("Автомобиль с таким VIN уже есть");
-            }
-            _logger.LogInformation("Car. Id:{ Id}.CarBrand:{CarBrand}.CarModel:{CarModel}.CarVIN:{CarVIN}", model?.Id, model?.Brand, model?.Brand, model?.VIN);
+            _logger.LogInformation("WorkDuration. Id:{ Id}.Duration:{Duration}", model?.Id, model?.Duration);
         }
     }
 }
