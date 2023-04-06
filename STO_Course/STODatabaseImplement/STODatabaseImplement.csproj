@@ -20,8 +20,4 @@
     <ProjectReference Include="..\STODataModels\STODataModels.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Implements\" />
-  </ItemGroup>
-
 </Project>
