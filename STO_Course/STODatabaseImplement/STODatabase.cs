@@ -10,7 +10,7 @@ namespace STODatabaseImplement
         {
             if (!optionsBuilder.IsConfigured)
             {
-				optionsBuilder.UseSqlServer(@"Data Source=SHADOWIK\SHADOWIK;Initial Catalog=STO;Integrated Security=True;TrustServerCertificate=True"); //todo привязывай данные
+				optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-QVK6NSA\SQLEXPRESS03;Initial Catalog=STO;Integrated Security=True;TrustServerCertificate=True"); 
 			}
             base.OnConfiguring(optionsBuilder);
         }
