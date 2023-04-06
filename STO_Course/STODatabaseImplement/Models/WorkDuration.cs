@@ -4,6 +4,7 @@ using STODataModels.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -13,10 +14,13 @@ namespace STODatabaseImplement.Models
 {
     public class WorkDuration : IWorkDurationModel
     {
-        public int Id {get; set;}
+        public int Id { get; set; }
 
         [Required]
         public int Duration { get; set; }
+
+        [ForeignKey("DurationId")]
+        public virtual List<Work> Works { get; set; }
 
         public static WorkDuration Create(WorkDurationBindingModel model)
         {
