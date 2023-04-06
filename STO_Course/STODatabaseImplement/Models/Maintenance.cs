@@ -31,7 +31,7 @@ namespace STODatabaseImplement.Models
             }
         }
         [ForeignKey("MaintenanceId")]
-        public virtual List<MaintenanceCars> Cars { get; set; } = new();
+        public virtual List<MaintenanceCar> Cars { get; set; } = new();
 
         public static Maintenance Create(STODatabase context, MaintenanceBindingModel model)
         {
@@ -39,7 +39,7 @@ namespace STODatabaseImplement.Models
             {
                 Id = model.Id,
                 EmployerId = model.EmployerId,
-                Cars = model.MaintenanceCars.Select(x => new MaintenanceCars
+                Cars = model.MaintenanceCars.Select(x => new MaintenanceCar
                 {
                     Car = context.Cars.First(y => y.Id == x.Key),
                     Count = x.Value.Item2
@@ -78,7 +78,7 @@ namespace STODatabaseImplement.Models
             var Maintenance = context.Maintenances.First(x => x.Id == Id);
             foreach (var pc in model.MaintenanceCars)
             {
-                context.MaintenanceCars.Add(new MaintenanceCars
+                context.MaintenanceCars.Add(new MaintenanceCar
                 {
                     Maintenance = Maintenance,
                     Car = context.Cars.First(x => x.Id == pc.Key),

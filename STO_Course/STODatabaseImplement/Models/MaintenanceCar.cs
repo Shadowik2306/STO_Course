@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace STODatabaseImplement.Models
 {
-    public class MaintenanceCars
+    public class MaintenanceCar
     {
         public int Id { get; set; }
 

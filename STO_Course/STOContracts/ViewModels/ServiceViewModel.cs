@@ -8,6 +8,5 @@ namespace STOContracts.ViewModels
         public int Id { get; set; }
         [DisplayName("Описание сервиса")]
         public string ServiceDescription { get; set; } = string.Empty;
-        public int CarId { get; set; }
     }
 }

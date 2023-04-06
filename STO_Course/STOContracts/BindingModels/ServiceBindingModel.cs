@@ -6,6 +6,5 @@ namespace STOContracts.BindingModels
     {
         public int Id { get; set; }
         public string ServiceDescription { get; set; }=string.Empty;
-        public int CarId { get; set; }
     }
 }

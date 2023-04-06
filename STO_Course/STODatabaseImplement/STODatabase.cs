@@ -15,8 +15,9 @@ namespace STODatabaseImplement
             base.OnConfiguring(optionsBuilder);
         }
         public virtual DbSet<Car> Cars { set; get; }
+        public virtual DbSet<CarSpare> CarSpares { set; get; }
         public virtual DbSet<Maintenance> Maintenances { set; get; }
-        public virtual DbSet<MaintenanceCars> MaintenanceCars { set; get; }
+        public virtual DbSet<MaintenanceCar> MaintenanceCars { set; get; }
         public virtual DbSet<Spare> Spares { set; get; }
         public virtual DbSet<Work> Works { set; get; }
         public virtual DbSet<WorkMaintence> WorkMaintences { set; get; }

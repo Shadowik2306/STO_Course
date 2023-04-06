@@ -85,11 +85,7 @@ namespace STOBusinessLogic.BusinessLogics
             {
                 return;
             }
-            if (model.CarId<0)
-            {
-                throw new ArgumentNullException("Некорректный идентификатор автомобиля", nameof(model.CarId));
-            }
-            _logger.LogInformation("Service. ServiceId: { ServiceId}.CarId: {CarId}", model.Id, model.CarId);
+            _logger.LogInformation("Service. ServiceId: { ServiceId}.", model.Id);
         }
     }
 }

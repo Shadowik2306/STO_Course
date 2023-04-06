@@ -8,6 +8,6 @@ namespace STOContracts.BindingModels
         public int EmployerId { get; set; }
         public double Cost { get; set; }
         public DateTime DateCreate { get; set; }
-        public Dictionary<int, (ISpareModel, int)> MaintenanceCars { get; set; } = new();
+        public Dictionary<int, (ICarModel, int)> MaintenanceCars { get; set; } = new();
     }
 }
