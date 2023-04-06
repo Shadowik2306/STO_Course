@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using STOContracts.BindingModels;
+using STOContracts.SearchModels;
+using STOContracts.StoragesContracts;
+using STOContracts.ViewModels;
+using STODatabaseImplement;
 
 namespace STODatabaseImplement.Implements
 {
-    internal class MaintenanceStorage
+    public class MaintenanceStorage : IMaintenanceStorage
     {
+
     }
 }
