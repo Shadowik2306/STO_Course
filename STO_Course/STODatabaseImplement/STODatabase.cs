@@ -10,7 +10,7 @@ namespace STODatabaseImplement
         {
             if (!optionsBuilder.IsConfigured)
             {
-				optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-QVK6NSA\SQLEXPRESS03;Initial Catalog=STO;Integrated Security=True;TrustServerCertificate=True"); 
+				optionsBuilder.UseSqlServer(@"Data Source=SHADOWIK\SHADOWIK;Initial Catalog=STO;Integrated Security=True;TrustServerCertificate=True"); 
 			}
             base.OnConfiguring(optionsBuilder);
         }
@@ -26,7 +26,6 @@ namespace STODatabaseImplement
         public virtual DbSet<WorkDuration> WorkDurations { set; get; }
         public virtual DbSet<WorkMaintence> WorkMaintences { set; get; }
         public virtual DbSet<WorkSpare> WorkSpares { set; get; }
-
 
     }
 }

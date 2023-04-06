@@ -21,6 +21,8 @@ namespace STODatabaseImplement.Models
         public double Price { get; set; }
         [Required]
         public int StorekeeperId { get; set; }
+        [Required]
+        public int DurationId { get; set; }
 
         private Dictionary<int, (ISpareModel, int)>? _workSpares { get; set; } = null;
         [NotMapped]
@@ -89,7 +91,7 @@ namespace STODatabaseImplement.Models
             Price = Price,
         };
 
-
+        
 
         public void UpdateSpares(STODatabase context, WorkBindingModel model)
         {

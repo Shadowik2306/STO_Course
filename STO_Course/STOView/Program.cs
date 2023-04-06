@@ -2,6 +2,8 @@ using STO;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
+using System;
+using System.Windows.Forms;
 
 namespace STOView
 {
@@ -23,7 +25,7 @@ namespace STOView
 			var services = new ServiceCollection();
 			ConfigureServices(services);
 			_serviceProvider = services.BuildServiceProvider();
-			Application.Run(_serviceProvider.GetRequiredService<Form1>());
+            System.Windows.Forms.Application.Run(_serviceProvider.GetRequiredService<Form1>());
 		}
 
 		private static void ConfigureServices(ServiceCollection services)
