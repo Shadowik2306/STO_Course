@@ -26,9 +26,6 @@ namespace STODatabaseImplement
         public virtual DbSet<WorkDuration> WorkDurations { set; get; }
         public virtual DbSet<WorkMaintence> WorkMaintences { set; get; }
         public virtual DbSet<WorkSpare> WorkSpares { set; get; }
-        public virtual DbSet<Storekeeper> Storekeepers { set; get; }
-        public virtual DbSet<Service> Services { set; get; }
-        public virtual DbSet<WorkDuration> WorkDurations { set; get; }
-        public virtual DbSet<Employer> Employers { set; get; }
+
     }
 }
