@@ -2,7 +2,6 @@ using STO;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
-using System;
 
 namespace STOView
 {
