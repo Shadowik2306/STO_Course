@@ -1,77 +1,46 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using STOContracts.BindingModels;
+using STOContracts.BusinessLogicsContracts;
+using STOContracts.SearchModels;
+using STOContracts.StoragesContracts;
+using STOContracts.ViewModels;
 
 namespace STOBusinessLogic.BusinessLogics
 {
     public class ReportLogic : IReportLogic
     {
-       
+        private readonly IMaintenanceStorage _maintenanceStorage;
+        private readonly ISpareStorage _spareStorage;
+        private readonly ICarStorage _carStorage;
+        public ReportLogic(IMaintenanceStorage maintenanceStorage, ISpareStorage spareStorage, ICarStorage carStorage) 
+        { 
+            _carStorage = carStorage;
+            _maintenanceStorage = maintenanceStorage;
+            _spareStorage = spareStorage;
+        }
+        public List<ReportViewModel> GetCarsAndSpares(ReportBindingModel model)
+        {
+            return _maintenanceStorage.GetFilteredList(new MaintenanceSearchModel { DateFrom = model.DateFrom, DateTo = model.DateTo })
+                .Select(x => new ReportViewModel
+                {
+                    Cost=x.Cost,
+                    Cars=x.MaintenanceCars.Select(x=>(x.Value.Item1.VIN,x.Value.Item2)).ToList(),
+                    Spares=x.MaintenanceCars.Select
+                }).ToList();
+        }
 
-        public ReportLogic(IReinforcedStorage reinforcedStorage, IComponentStorage componentStorage, IOrderStorage orderStorage,
-            AbstractSaveToExcel saveToExcel, AbstractSaveToWord saveToWord, AbstractSaveToPdf saveToPdf)
+        public void SaveToPdfFile(ReportBindingModel model)
         {
-            _reinforcedStorage = reinforcedStorage;
-            _componentStorage = componentStorage;
-            _orderStorage = orderStorage;
+            throw new NotImplementedException();
+        }
 
-            _saveToExcel = saveToExcel;
-            _saveToWord = saveToWord;
-            _saveToPdf = saveToPdf;
-        }
-        public List<ReportReinforcedComponentViewModel> GetReinforcedComponents()
+        public void SaveToExcelFile(ReportBindingModel model)
         {
-            return _reinforcedStorage.GetFullList().Select(x => new ReportReinforcedComponentViewModel
-            {
-                ReinforcedName = x.ReinforcedName,
-                Components = x.ReinforcedComponents.Select(x => (x.Value.Item1.ComponentName, x.Value.Item2)).ToList(),
-                TotalCount = x.ReinforcedComponents.Select(x => x.Value.Item2).Sum()
-            }).ToList();
+            throw new NotImplementedException();
         }
-        public List<ReportOrdersViewModel> GetOrders(ReportBindingModel model)
+
+        public void SaveToWordFile(ReportBindingModel model)
         {
-            return _orderStorage.GetFilteredList(new OrderSearchModel { DateFrom = model.DateFrom, DateTo = model.DateTo })
-                    .Select(x => new ReportOrdersViewModel
-                    {
-                        Id = x.Id,
-                        DateCreate = x.DateCreate,
-                        ReinforcedName = x.ReinforcedName,
-                        Sum = x.Sum,
-                        Status= x.Status.ToString()
-                    })
-                    .ToList();
-        }
-        public void SaveReinforcedesToWordFile(ReportBindingModel model)
-        {
-            _saveToWord.CreateDoc(new WordInfo
-            {
-                FileName = model.FileName,
-                Title = "Список изделий",
-                Reinforcedes = _reinforcedStorage.GetFullList()
-            });
-        }
-        public void SaveReinforcedComponentToExcelFile(ReportBindingModel model)
-        {
-            _saveToExcel.CreateReport(new ExcelInfo
-            {
-                FileName = model.FileName,
-                Title = "Список изделий",
-                ReinforcedComponents = GetReinforcedComponents()
-            });
-        }
-        public void SaveOrdersToPdfFile(ReportBindingModel model)
-        {
-            _saveToPdf.CreateDoc(new PdfInfo
-            {
-                FileName = model.FileName,
-                Title = "Список заказов",
-                DateFrom = model.DateFrom!.Value,
-                DateTo = model.DateTo!.Value,
-                Orders = GetOrders(model)
-            });
+            throw new NotImplementedException();
         }
     }
 }
