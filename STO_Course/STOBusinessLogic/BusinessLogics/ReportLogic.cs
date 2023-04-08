@@ -24,7 +24,10 @@ namespace STOBusinessLogic.BusinessLogics
                 {
                     Cost=x.Cost,
                     Cars=x.MaintenanceCars.Select(x=>(x.Value.Item1.VIN,x.Value.Item2)).ToList(),
-                    Spares=x.MaintenanceCars.Select
+                    Spares=_carStorage.GetFilteredList(new CarSearchModel
+                    {
+                        Id=x.MaintenanceCars
+                    })
                 }).ToList();
         }
 
