@@ -49,6 +49,9 @@ namespace STODatabaseImplement.Models
                 }).ToList()
             };
         }
+        public void Update(CarBindingModel model)
+        {
+        }
         public CarViewModel GetViewModel => new()
         {
             Id = Id,

@@ -19,7 +19,7 @@ namespace STODatabaseImplement.Models
         public virtual List<Maintenance> Maintenances { get; set; } = new();
 
 
-        public static Employer Create(StorekeeperBindingModel model)
+        public static Employer Create(EmployerBindingModel model)
         {
             return new Employer()
             {
