@@ -9,36 +9,21 @@ namespace STOBusinessLogic.BusinessLogics
 {
     public class ReportLogic : IReportLogic
     {
-        private readonly IMaintenanceStorage _maintenanceStorage;
+        private readonly IWorkStorage _workStorage;
         private readonly ISpareStorage _spareStorage;
-        private readonly ICarStorage _carStorage;
-        public ReportLogic(IMaintenanceStorage maintenanceStorage, ISpareStorage spareStorage, ICarStorage carStorage) 
+        public ReportLogic(IWorkStorage work, ISpareStorage spareStorage) 
         { 
-            _carStorage = carStorage;
-            _maintenanceStorage = maintenanceStorage;
+            _workStorage = work;
             _spareStorage = spareStorage;
         }
-        public List<ReportViewModel> GetCarsAndSpares(ReportBindingModel model)
+        public List<ReportViewModel> GetSpares(ReportBindingModel model)
         {
-            var maintenances = _maintenanceStorage.GetFilteredList(new MaintenanceSearchModel { DateFrom = model.DateFrom, DateTo = model.DateTo });
-            var result = new List<ReportViewModel>();
-            foreach (var maintenance in maintenances) {
-                var cars = _maintenanceStorage.GetMaintenaceCars(new MaintenanceSearchModel { Id = maintenance.Id }).ToList();
-                List<String> cars_spares = new List<String>();
-                foreach (var car in cars)
-                {
-                    var spare = _maintenanceStorage.GetCarsSpares(new MaintenanceSearchModel { Id = maintenance.Id }, new CarSearchModel { Id = car.Id }).Select(x => x.Name).ToList();
-                    cars_spares.AddRange(spare);
-                }
-                result.Add(new ReportViewModel
-                {
-                    Cost = maintenance.Cost,
-                    Spares = cars_spares,
-                    Cars = cars.Select(x => x.VIN).ToList()
-
-                });
-            }
-            return result;   
+            return _workStorage.GetFilteredList(new WorkSearchModel { DateTo = model.DateTo, DateFrom = model.DateFrom })
+             .Select(x => new ReportViewModel
+             {
+                 Name = x.Title,
+                 Spares = x.WorkSpares.Select(x => x.Value.Item1.Name).ToList(),
+             }).ToList();
         }
 
         public void SaveToPdfFile(ReportBindingModel model)

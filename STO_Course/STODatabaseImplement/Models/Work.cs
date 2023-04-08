@@ -24,6 +24,8 @@ namespace STODatabaseImplement.Models
         [Required]
         public int DurationId { get; set; }
 
+        public DateTime Date { get; set; } = DateTime.Now;
+
         private Dictionary<int, (ISpareModel, int)>? _workSpares { get; set; } = null;
         [NotMapped]
         public Dictionary<int, (ISpareModel, int)> WorkSpares {

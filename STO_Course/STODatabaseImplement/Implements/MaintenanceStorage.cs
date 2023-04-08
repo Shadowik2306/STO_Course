@@ -86,32 +86,5 @@ namespace STODatabaseImplement.Implements
             return null;
         }
 
-        public List<CarViewModel> GetMaintenaceCars(MaintenanceSearchModel model)
-        {
-            if (model == null)
-            {
-                return new();
-            }
-            using var context = new STODatabase();
-            var cars = context.MaintenanceCars
-                .Where(x => x.MaintenanceId == model.Id)
-                .Select(x => x.Car.GetViewModel)
-                .ToList();
-            return cars;
-        }
-
-        public List<SpareViewModel> GetCarsSpares(MaintenanceSearchModel model1, CarSearchModel model2)
-        {
-            if (model1 == null || model2 == null)
-            {
-                return new();
-            }
-            using var context = new STODatabase();
-
-            var cars = context.MaintenanceCars.Where(x => x.MaintenanceId == model1.Id).Select(x=>x.Car).ToList();
-            var spare = context.CarSpares.Where(x => cars.Contains(x.Car)).Select(x => x.Spare.GetViewModel).ToList();
-
-            return spare;
-        }
     }
 }
