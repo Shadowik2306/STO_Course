@@ -12,5 +12,7 @@ namespace STOContracts.StoragesContracts
         CarViewModel? Insert(CarBindingModel model);
         CarViewModel? Update(CarBindingModel model);
         CarViewModel? Delete(CarBindingModel model);
+
+        
     }
 }

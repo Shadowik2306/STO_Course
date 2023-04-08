@@ -3,6 +3,7 @@ using STOContracts.BusinessLogicsContracts;
 using STOContracts.SearchModels;
 using STOContracts.StoragesContracts;
 using STOContracts.ViewModels;
+using System.Security.Cryptography.X509Certificates;
 
 namespace STOBusinessLogic.BusinessLogics
 {
@@ -19,16 +20,25 @@ namespace STOBusinessLogic.BusinessLogics
         }
         public List<ReportViewModel> GetCarsAndSpares(ReportBindingModel model)
         {
-            return _maintenanceStorage.GetFilteredList(new MaintenanceSearchModel { DateFrom = model.DateFrom, DateTo = model.DateTo })
-                .Select(x => new ReportViewModel
+            var maintenances = _maintenanceStorage.GetFilteredList(new MaintenanceSearchModel { DateFrom = model.DateFrom, DateTo = model.DateTo });
+            var result = new List<ReportViewModel>();
+            foreach (var maintenance in maintenances) {
+                var cars = _maintenanceStorage.GetMaintenaceCars(new MaintenanceSearchModel { Id = maintenance.Id }).ToList();
+                List<String> cars_spares = new List<String>();
+                foreach (var car in cars)
                 {
-                    Cost=x.Cost,
-                    Cars=x.MaintenanceCars.Select(x=>(x.Value.Item1.VIN,x.Value.Item2)).ToList(),
-                    Spares=_carStorage.GetFilteredList(new CarSearchModel
-                    {
-                        Id=x.MaintenanceCars
-                    })
-                }).ToList();
+                    var spare = _maintenanceStorage.GetCarsSpares(new MaintenanceSearchModel { Id = maintenance.Id }, new CarSearchModel { Id = car.Id }).Select(x => x.Name).ToList();
+                    cars_spares.AddRange(spare);
+                }
+                result.Add(new ReportViewModel
+                {
+                    Cost = maintenance.Cost,
+                    Spares = cars_spares,
+                    Cars = cars.Select(x => x.VIN).ToList()
+
+                });
+            }
+            return result;   
         }
 
         public void SaveToPdfFile(ReportBindingModel model)

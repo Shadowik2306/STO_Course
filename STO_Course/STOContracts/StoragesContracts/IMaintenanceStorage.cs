@@ -12,5 +12,7 @@ namespace STOContracts.StoragesContracts
         MaintenanceViewModel? Insert(MaintenanceBindingModel model);
         MaintenanceViewModel? Update(MaintenanceBindingModel model);
         MaintenanceViewModel? Delete(MaintenanceBindingModel model);
+        public List<CarViewModel> GetMaintenaceCars(MaintenanceSearchModel model);
+        public List<SpareViewModel> GetCarsSpares(MaintenanceSearchModel model1, CarSearchModel model2);
     }
 }
