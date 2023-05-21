@@ -43,7 +43,9 @@ namespace STODatabaseImplement.Models
                 {
                     Car = context.Cars.First(y => y.Id == x.Key),
                     Count = x.Value.Item2
-                }).ToList()
+                }).ToList(),
+                Cost = model.Cost,
+                DateCreate = model.DateCreate
             };
         }
 
