@@ -130,15 +130,5 @@ namespace STOEmployer.Controllers
             }
             return View();
         }
-
-        [HttpGet]
-        public IActionResult CreateCar()
-        {
-            if (Employer is null)
-            {
-                return Redirect("Privacy");
-            }
-            return View();
-        }
     }
 }
