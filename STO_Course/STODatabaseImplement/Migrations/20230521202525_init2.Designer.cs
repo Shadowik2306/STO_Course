@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using STODatabaseImplement;
 
@@ -11,9 +12,11 @@ using STODatabaseImplement;
 namespace STODatabaseImplement.Migrations
 {
     [DbContext(typeof(STODatabase))]
-    partial class STODatabaseModelSnapshot : ModelSnapshot
+    [Migration("20230521202525_init2")]
+    partial class init2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

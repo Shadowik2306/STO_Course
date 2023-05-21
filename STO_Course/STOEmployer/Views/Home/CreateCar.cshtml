@@ -1,4 +1,7 @@
-﻿@{
+﻿@using STOContracts.ViewModels;
+@model List<CheckboxViewModel>
+
+@{
 	ViewData["Title"] = "CreateCar";
 }
 <div class="text-center">
@@ -7,16 +10,27 @@
 <form method="post">
 	<div class="row">
 		<div class="col-4">Марка:</div>
-		<div class="col-8"><input type="text" name="title" id="title" /></div>
+		<div class="col-8"><input type="text" name="brand" id="brand" /></div>
 	</div>
 	<div class="row">
 		<div class="col-4">Модель:</div>
-		<div class="col-8"><input type="number" name="price" id="price" /></div>
+		<div class="col-8"><input type="text" name="model" id="model" /></div>
 	</div>
 	<div class="row">
 		<div class="col-4">VIN:</div>
-		<div class="col-8"><input type="number" name="price" id="price" /></div>
+		<div class="col-8"><input type="text" name="vin" id="vin" /></div>
 	</div>
+	<h3>Машины:</h3>
+	@for (var item = 0; item < @Model.Count(); item++)
+	{
+		<div class="form-check form-switch">
+			<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" asp-for="@Model[item].IsChecked">
+			<label class="form-check-label" for="flexSwitchCheckDefault">@Model[item].LabelName</label>
+			<input type="hidden" asp-for="@Model[item].Id" />
+			<input type="hidden" asp-for="@Model[item].LabelName" />
+		</div>
+	}
+	<hr>
 	<div class="row">
 		<div class="col-8"></div>
 		<div class="col-4">
