@@ -1,9 +1,9 @@
 ﻿@using STOContracts.ViewModels
 
-@model List<CarViewModel>
+@model List<MaintenanceViewModel>
 
 @{
-	ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Maintenances";
 }
 
 <div class="text-center">
@@ -47,13 +47,13 @@
 							@Html.DisplayFor(modelItem => item.Id)
 								</td>
 								<td>
-							@Html.DisplayFor(modelItem => item.Brand)
+							@Html.DisplayFor(modelItem => item.Cost)
 								</td>
 								<td>
-							@Html.DisplayFor(modelItem => item.Model)
+							@Html.DisplayFor(modelItem => item.DateCreate)
 								</td>
 								<td>
-							@Html.DisplayFor(modelItem => item.VIN)
+							@Html.DisplayFor(modelItem => item.EmployerId)
 								</td>
 							</tr>
 				}
