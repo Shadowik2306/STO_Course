@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BankYouBankruptContracts.ViewModels.Client.Reports;
+using Microsoft.AspNetCore.Mvc;
 using STOBusinessLogic.BusinessLogics;
 using STOContracts.BindingModels;
 using STOContracts.BusinessLogicsContracts;
@@ -84,12 +85,24 @@ namespace STOEmployer.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult CreateCar() {
-			if (Employer is null) {
-				return Redirect("Privacy");
-			}
-			return View(_carLogic.ReadList(null));
-		}
+		public IActionResult IndexMaintenance() {
+            if (Employer is null)
+            {
+                return Redirect("Privacy");
+            }
+            return View(_maintenanceLogic.ReadList(null));
+        }
+
+        [HttpGet]
+        public IActionResult IndexCar()
+        {
+            if (Employer is null)
+            {
+                return Redirect("Privacy");
+            }
+            return View(_carLogic.ReadList(null));
+        }
+
 
         [HttpGet]
         public IActionResult CreateMaintenance()
@@ -98,7 +111,34 @@ namespace STOEmployer.Controllers
             {
                 return Redirect("Privacy");
             }
-            return View(_carLogic.ReadList(null));
+
+			ViewBag.Car = _carLogic.ReadList(new CarSearchModel()).Select(x => new CheckboxViewModel()
+			{
+				Id = x.Id,
+				LabelName = x.Model + " " + x.Brand,
+				IsChecked = false
+			});
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult CreateCar()
+        {
+            if (Employer is null)
+            {
+                return Redirect("Privacy");
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult CreateCar()
+        {
+            if (Employer is null)
+            {
+                return Redirect("Privacy");
+            }
+            return View();
         }
     }
 }
