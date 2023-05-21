@@ -1,8 +1,63 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using ServiceStationContracts.ViewModels
+
+@model List<CarViewModel>
+
+@{
+	ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+	<h1 class="display-4">ТО</h1>
+</div>
+
+
+<div class="text-center">
+	@{
+		if (Model == null)
+		{
+					<h3 class="display-4">Авторизируйтесь</h3>
+			return;
+		}
+
+			<p>
+				<a asp-action="Create">Создать ТО</a>
+			</p>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>
+							Номер
+						</th>
+						<th>
+							Стоимость
+						</th>
+						<th>
+							Дата создания
+						</th>
+						<th>
+							Работник
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+				@foreach (var item in Model)
+				{
+							<tr>
+								<td>
+							@Html.DisplayFor(modelItem => item.Id)
+								</td>
+								<td>
+							@Html.DisplayFor(modelItem => item.Brand)
+								</td>
+								<td>
+							@Html.DisplayFor(modelItem => item.Model)
+								</td>
+								<td>
+							@Html.DisplayFor(modelItem => item.VIN)
+								</td>
+							</tr>
+				}
+				</tbody>
+			</table>
+	}
 </div>
