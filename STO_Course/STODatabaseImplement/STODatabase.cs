@@ -10,7 +10,14 @@ namespace STODatabaseImplement
         {
             if (!optionsBuilder.IsConfigured)
             {
-				optionsBuilder.UseSqlServer(@"Data Source=PREMIXHOME\SQLEXPRESS05;Initial Catalog=STO;Integrated Security=True;TrustServerCertificate=True"); 
+				if (System.Environment.MachineName == "SHADOWIK")
+				{
+					optionsBuilder.UseSqlServer(@"Data Source=SHADOWIK\SHADOWIK;Initial Catalog=BankYouBankrupt;Integrated Security=True;TrustServerCertificate=True");
+				}
+				else
+				{
+					optionsBuilder.UseSqlServer(@"Data Source=PREMIXHOME\SQLEXPRESS05;Initial Catalog=STO;Integrated Security=True;TrustServerCertificate=True");
+				}				
 			}
             base.OnConfiguring(optionsBuilder);
         }
