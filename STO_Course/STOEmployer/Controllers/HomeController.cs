@@ -42,8 +42,12 @@ namespace STOEmployer.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult Privacy() { 
-			return View();
+		public IActionResult Privacy() {
+            if (Employer is not null)
+            {
+                return Redirect("IndexMaintenance");
+            }
+            return View();
 		}
 
 		[HttpGet]
@@ -78,5 +82,23 @@ namespace STOEmployer.Controllers
 
 			return Redirect("Privacy");
 		}
-	}
+
+		[HttpGet]
+		public IActionResult CreateCar() {
+			if (Employer is null) {
+				return Redirect("Privacy");
+			}
+			return View(_carLogic.ReadList(null));
+		}
+
+        [HttpGet]
+        public IActionResult CreateMaintenance()
+        {
+            if (Employer is null)
+            {
+                return Redirect("Privacy");
+            }
+            return View(_carLogic.ReadList(null));
+        }
+    }
 }
