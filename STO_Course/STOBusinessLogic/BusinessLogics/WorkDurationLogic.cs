@@ -11,7 +11,7 @@ namespace STOBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly IWorkDurationStorage _workDurationStorage;
-        public WorkDurationLogic(ILogger logger, IWorkDurationStorage workDurationStorage)
+        public WorkDurationLogic(ILogger<WorkDurationLogic> logger, IWorkDurationStorage workDurationStorage)
         {
             _logger = logger;
             _workDurationStorage = workDurationStorage;

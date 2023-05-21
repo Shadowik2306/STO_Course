@@ -11,7 +11,7 @@ namespace STOBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly IMaintenanceStorage _maintenanceStorage;
-        public MaintenanceLogic(ILogger logger, IMaintenanceStorage maintenanceStorage)
+        public MaintenanceLogic(ILogger<MaintenanceLogic> logger, IMaintenanceStorage maintenanceStorage)
         {
             _logger = logger;
             _maintenanceStorage = maintenanceStorage;
