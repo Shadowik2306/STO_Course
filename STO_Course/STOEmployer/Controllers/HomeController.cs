@@ -64,7 +64,7 @@ namespace STOEmployer.Controllers
 				Password = password
 			});
 
-			return Redirect("Home/Privacy");
+			return Redirect("~/Home/Privacy");
 		}
 
 		[HttpGet]
@@ -80,14 +80,14 @@ namespace STOEmployer.Controllers
 				Password = password,
 			});
 
-			return Redirect("Home/Privacy");
+			return Redirect("~/Home/Privacy");
 		}
 
 		[HttpGet]
 		public IActionResult IndexMaintenance() {
             if (Employer is null)
             {
-                return Redirect("Home/Privacy");
+                return Redirect("~/Home/Privacy");
             }
             return View(_maintenanceLogic.ReadList(null));
         }
@@ -97,7 +97,7 @@ namespace STOEmployer.Controllers
         {
             if (Employer is null)
             {
-                return Redirect("Home/Privacy");
+                return Redirect("~/Home/Privacy");
             }
             return View(_carLogic.ReadList(null));
         }
@@ -108,7 +108,7 @@ namespace STOEmployer.Controllers
         {
             if (Employer is null)
             {
-                return Redirect("Home/Privacy");
+                return Redirect("~/Home/Privacy");
             }
 
 			ViewBag.Car = _carLogic.ReadList(new CarSearchModel()).Select(x => new CheckboxViewModel()
@@ -125,7 +125,7 @@ namespace STOEmployer.Controllers
         {
             if (Employer is null)
             {
-                return Redirect("Home/Privacy");
+                return Redirect("~/Home/Privacy");
             }
             return View();
         }
