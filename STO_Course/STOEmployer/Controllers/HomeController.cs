@@ -7,6 +7,7 @@ using STOContracts.ViewModels;
 using STODataModels.Models;
 using STOEmployer.Models;
 using System.Diagnostics;
+using System.Net.Http.Headers;
 
 namespace STOEmployer.Controllers
 {
@@ -111,14 +112,27 @@ namespace STOEmployer.Controllers
                 return Redirect("~/Home/Privacy");
             }
 
-			ViewBag.Car = _carLogic.ReadList(new CarSearchModel()).Select(x => new CheckboxViewModel()
-			{
-				Id = x.Id,
-				LabelName = x.Model + " " + x.Brand,
-				IsChecked = false
-			});
-            return View();
+            return View(_carLogic.ReadList(null).Select(x => new CheckboxViewModel()
+            {
+                Id = x.Id,
+                LabelName = x.Model + " " + x.Brand,
+                IsChecked = false,
+                Count = 0,
+                Object = x
+            }));
         }
+
+		[HttpPost]
+		public IActionResult CreateMaintenance(List<CheckboxViewModel> Cars, int cost) {
+			_maintenanceLogic.Create(new MaintenanceBindingModel()
+			{
+				DateCreate = DateTime.Now,
+				Cost = cost,
+				EmployerId = Employer.Id,
+				MaintenanceCars = Cars.Where(x => x.IsChecked).ToDictionary(x => x.Id, x => (x.Object as ICarModel, x.Count))
+			});
+			return Redirect("~/Home/IndexMaintenance");
+		}
 
         [HttpGet]
         public IActionResult CreateCar()
@@ -127,7 +141,28 @@ namespace STOEmployer.Controllers
             {
                 return Redirect("~/Home/Privacy");
             }
-            return View();
+
+            return View(_spareLogic.ReadList(null).Select(x => new CheckboxViewModel()
+            {
+                Id = x.Id,
+                LabelName = x.Name,
+                IsChecked = false,
+                Count = 0,
+                Object = x
+            }));
+        }
+
+		[HttpPost]
+		public IActionResult CreateCar(List<CheckboxViewModel> Spares, string brand, string model, string vin) {
+			_carLogic.Create(new CarBindingModel()
+			{
+				Brand = brand,
+				Model = model,
+				VIN = vin,
+				CarSpares = Spares.Where(x => x.IsChecked).ToDictionary(x => x.Id, x => (x.Object as ISpareModel, x.Count))
+			});
+
+            return Redirect("~/Home/IndexCar");
         }
     }
 }

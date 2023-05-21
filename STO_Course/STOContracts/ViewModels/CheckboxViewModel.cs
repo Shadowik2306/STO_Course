@@ -14,5 +14,9 @@ namespace STOContracts.ViewModels
         public string LabelName { get; set; }
 
         public bool IsChecked { get; set; }
+
+        public int Count { get; set; }
+
+        public object Object { get; set; }
     }
 }
