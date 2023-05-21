@@ -11,7 +11,7 @@ namespace STOBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly ISpareStorage _spareStorage;
-        public SpareLogic(ILogger<SoareLogic> logger, ISpareStorage spareStorage)
+        public SpareLogic(ILogger<SpareLogic> logger, ISpareStorage spareStorage)
         {
             _logger = logger;
             _spareStorage = spareStorage;
