@@ -7,7 +7,7 @@ namespace STOContracts.ViewModels
     {
         public int Id { get; set; }
 
-        [DisplayName("Название бренда")]
+        [DisplayName("Название марки")]
         public string Brand { get; set; } = string.Empty;
 
         [DisplayName("Название модели")]
