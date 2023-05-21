@@ -11,7 +11,7 @@ namespace STOBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly ICarStorage _carStorage;
-        public CarLogic(ILogger logger, ICarStorage carStorage)
+        public CarLogic(ILogger<CarLogic> logger, ICarStorage carStorage)
         {
             _logger = logger;
             _carStorage = carStorage;

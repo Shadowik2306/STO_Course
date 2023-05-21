@@ -11,7 +11,7 @@ namespace STOBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly IServiceStorage _serviceStorage;
-        public ServiceLogic(ILogger logger, IServiceStorage serviceStorage)
+        public ServiceLogic(ILogger<ServiceLogic> logger, IServiceStorage serviceStorage)
         {
             _logger = logger;
             _serviceStorage = serviceStorage;

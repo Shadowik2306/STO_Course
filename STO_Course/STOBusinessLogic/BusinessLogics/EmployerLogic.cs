@@ -11,7 +11,7 @@ namespace STOBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly IEmployerStorage _employerStorage;
-        public EmployerLogic(ILogger logger, IEmployerStorage employerStorage)
+        public EmployerLogic(ILogger<EmployerLogic> logger, IEmployerStorage employerStorage)
         {
             _logger = logger;
             _employerStorage = employerStorage;
