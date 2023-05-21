@@ -26,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\STOBusinessLogic\STOBusinessLogic.csproj" />
     <ProjectReference Include="..\STOContracts\STOContracts.csproj" />
+    <ProjectReference Include="..\STODatabaseImplement\STODatabaseImplement.csproj" />
   </ItemGroup>
 
 </Project>
