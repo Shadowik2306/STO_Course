@@ -1,5 +1,4 @@
-﻿using BankYouBankruptContracts.ViewModels.Client.Reports;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using STOBusinessLogic.BusinessLogics;
 using STOContracts.BindingModels;
 using STOContracts.BusinessLogicsContracts;
