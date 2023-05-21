@@ -12,7 +12,7 @@ namespace STODatabaseImplement
             {
 				if (System.Environment.MachineName == "SHADOWIK")
 				{
-					optionsBuilder.UseSqlServer(@"Data Source=SHADOWIK\SHADOWIK;Initial Catalog=BankYouBankrupt;Integrated Security=True;TrustServerCertificate=True");
+					optionsBuilder.UseSqlServer(@"Data Source=SHADOWIK\SHADOWIK;Initial Catalog=STO;Integrated Security=True;TrustServerCertificate=True");
 				}
 				else
 				{

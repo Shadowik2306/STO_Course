@@ -118,7 +118,7 @@ namespace STOEmployer.Controllers
                 LabelName = x.Model + " " + x.Brand,
                 IsChecked = false,
                 Count = 0,
-            }));
+            }).ToList());
         }
 
 		[HttpPost]
@@ -147,7 +147,7 @@ namespace STOEmployer.Controllers
                 LabelName = x.Name,
                 IsChecked = false,
                 Count = 0,
-            }));
+            }).ToList());
         }
 
 		[HttpPost]
