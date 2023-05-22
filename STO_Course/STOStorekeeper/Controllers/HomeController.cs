@@ -15,7 +15,7 @@ namespace STOEmployer.Controllers
 	{
 		private readonly ILogger<HomeController> _logger;
 
-        public static EmployerViewModel? Employer { get; set; } = null;
+        public static StorekeeperViewModel? Storekeeper { get; set; } = null;
 
 		public readonly IEmployerLogic _employerLogic;
 		public readonly IMaintenanceLogic _maintenanceLogic;
@@ -44,7 +44,7 @@ namespace STOEmployer.Controllers
 
 		[HttpGet]
 		public IActionResult Privacy() {
-            if (Employer is not null)
+            if (Storekeeper is not null)
             {
                 return Redirect("IndexMaintenance");
             }
@@ -53,12 +53,12 @@ namespace STOEmployer.Controllers
 
 		[HttpGet]
 		public IActionResult Register() {
-			return View(Employer);
+			return View(Storekeeper);
 		}
 
 		[HttpPost]
 		public IActionResult Register(string login, string email, string password) {
-			_employerLogic.Create(new EmployerBindingModel()
+			_storekeeperLogic.Create(new StorekeeperBindingModel()
 			{
 				Login = login,
 				Email = email,
@@ -75,7 +75,7 @@ namespace STOEmployer.Controllers
 
 		[HttpPost]
 		public IActionResult Enter(string login, string password) {
-			Employer = _employerLogic.ReadElement(new EmployerSearchModel()
+			Storekeeper = _storekeeperLogic.ReadElement(new StorekeeperSearchModel()
 			{
 				Login = login,
 				Password = password,
@@ -86,7 +86,7 @@ namespace STOEmployer.Controllers
 
 		[HttpGet]
 		public IActionResult IndexSpare() {
-            if (Employer is null)
+            if (Storekeeper is null)
             {
                 return Redirect("~/Home/Privacy");
             }
@@ -96,7 +96,7 @@ namespace STOEmployer.Controllers
         [HttpGet]
         public IActionResult IndexWork()
         {
-            if (Employer is null)
+            if (Storekeeper is null)
             {
                 return Redirect("~/Home/Privacy");
             }
@@ -107,7 +107,7 @@ namespace STOEmployer.Controllers
         [HttpGet]
         public IActionResult CreateSpare()
         {
-            if (Employer is null)
+            if (Storekeeper is null)
             {
                 return Redirect("~/Home/Privacy");
             }
@@ -127,7 +127,7 @@ namespace STOEmployer.Controllers
         [HttpGet]
         public IActionResult CreateWork()
         {
-            if (Employer is null)
+            if (Storekeeper is null)
             {
                 return Redirect("~/Home/Privacy");
             }
@@ -155,14 +155,21 @@ namespace STOEmployer.Controllers
         }
 
 		[HttpPost]
-		public IActionResult CreateWork(CheckboxWorkViewModel SparesAndMaintences) {
-			_workLogic.Create(new CarBindingModel()
+		public IActionResult CreateWork(CheckboxWorkViewModel SparesAndMaintences, int duration, int price) {
+			_workDurationLogic.Create(new WorkDurationBindingModel()
 			{
-				Brand = brand,
-				Model = model,
-				VIN = vin,
-				CarSpares = Spares.Where(x => x.IsChecked).ToDictionary(x => x.Id, x => (x.Object as ISpareModel, x.Count))
+				Duration = duration,
 			});
+
+			_workLogic.Create(new WorkBindingModel()
+			{
+				StorekeeperId = Storekeeper.Id,
+				Date = DateTime.Now,
+				DurationId = _workDurationLogic.ReadList(null).Last().Id,
+				Price = price,
+				WorkMaintences = SparesAndMaintences.Maintenance.Where(x => x.IsChecked).ToDictionary(x => x.Id, x => (x.Object as IMaintenanceModel, x.Count)),
+				WorkSpares = SparesAndMaintences.Spares.Where(x => x.IsChecked).ToDictionary(x => x.Id, x => (x.Object as ISpareModel, x.Count)),
+            });
 
             return Redirect("~/Home/IndexCar");
         }
