@@ -96,14 +96,26 @@ namespace STOEmployer.Controllers
         [HttpGet]
         public IActionResult IndexCar()
         {
-			_carLogic.CreateExcelReport(_carLogic.ReadList(null));
+			
             if (Employer is null)
             {
                 return Redirect("~/Home/Privacy");
             }
-            return View(_carLogic.ReadList(null));
-        }
+			return View(_carLogic.ReadList(null));
+		}
 
+		[HttpGet]
+		public IActionResult Reports()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		public IActionResult CreateExcellReport()
+		{
+			_carLogic.CreateExcelReport(_carLogic.ReadList(null));
+			return Redirect("~/Home/IndexCar");
+		}
 
         [HttpGet]
         public IActionResult CreateMaintenance()
