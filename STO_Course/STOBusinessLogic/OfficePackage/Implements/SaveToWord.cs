@@ -1,23 +1,19 @@
-﻿
-using BankYouBankruptBusinessLogic.OfficePackage.HelperEnums;
-using BankYouBankruptBusinessLogic.OfficePackage.HelperModels;
+﻿using STOBusinessLogic.OfficePackage.HelperEnums;
+using STOBusinessLogic.OfficePackage.HelperModels;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 
-namespace BankYouBankruptBusinessLogic.OfficePackage.Implements
+namespace STOBusinessLogic.OfficePackage.Implements
 {
-    //реализация абстрактного класса сохранения в word
     public class SaveToWord : AbstractSaveToWord
     {
         private WordprocessingDocument? _wordDocument;
 
         private Body? _docBody;
 
-        //Получение типа выравнивания
         private static JustificationValues GetJustificationValues(WordJustificationType type)
         {
-            //выравнивание слева будет в том случае, если передаётся неизвестный тип выравнивания
             return type switch
             {
                 WordJustificationType.Both => JustificationValues.Both,
@@ -26,12 +22,10 @@ namespace BankYouBankruptBusinessLogic.OfficePackage.Implements
             };
         }
 
-        //Настройки страницы
         private static SectionProperties CreateSectionProperties()
         {
             var properties = new SectionProperties();
 
-            //прописываем портретную ориентацию
             var pageSize = new PageSize
             {
                 Orient = PageOrientationValues.Portrait
@@ -42,7 +36,6 @@ namespace BankYouBankruptBusinessLogic.OfficePackage.Implements
             return properties;
         }
 
-        //Задание форматирования для абзаца
         private static ParagraphProperties? CreateParagraphProperties(WordTextProperties? paragraphProperties)
         {
             if (paragraphProperties == null)
@@ -52,7 +45,6 @@ namespace BankYouBankruptBusinessLogic.OfficePackage.Implements
 
             var properties = new ParagraphProperties();
 
-            //вытаскиваем выравнивание текста
             properties.AppendChild(new Justification()
             {
                 Val = GetJustificationValues(paragraphProperties.JustificationType)
@@ -82,21 +74,17 @@ namespace BankYouBankruptBusinessLogic.OfficePackage.Implements
 
         protected override void CreateWord(WordInfo info)
         {
-            //создаём документ word
             _wordDocument = WordprocessingDocument.Create(info.FileName, WordprocessingDocumentType.Document);
 
-            //вытаскиваем главную часть из вордовского документа
             MainDocumentPart mainPart = _wordDocument.AddMainDocumentPart();
 
             mainPart.Document = new Document();
 
-            //генерируем тело основной части документа
             _docBody = mainPart.Document.AppendChild(new Body());
         }
 
         protected override void CreateParagraph(WordParagraph paragraph)
         {
-            //проверка на то, был ли вызван WordprocessingDocument.Create (создался ли документ) и есть ли вообще параграф для вставки
             if (_docBody == null || paragraph == null)
             {
                 return;
@@ -104,16 +92,13 @@ namespace BankYouBankruptBusinessLogic.OfficePackage.Implements
 
             var docParagraph = new Paragraph();
 
-            //добавляем свойства параграфа
             docParagraph.AppendChild(CreateParagraphProperties(paragraph.TextProperties));
 
-            //вставляем блоки текста (их называют Run)
             foreach (var run in paragraph.Texts)
             {
                 var docRun = new Run();
                 var properties = new RunProperties();
 
-                //задание свойств текста - размер и жирность
                 properties.AppendChild(new FontSize { Val = run.Item2.Size });
 
                 if (run.Item2.Bold)
@@ -135,7 +120,6 @@ namespace BankYouBankruptBusinessLogic.OfficePackage.Implements
             _docBody.AppendChild(docParagraph);
         }
 
-        //метод сохранения документа
         protected override void SaveWord(WordInfo info)
         {
             if (_docBody == null || _wordDocument == null)
@@ -143,10 +127,8 @@ namespace BankYouBankruptBusinessLogic.OfficePackage.Implements
                 return;
             }
 
-            //вставляем информацию по секциям (смотри, что является входным параметром)
             _docBody.AppendChild(CreateSectionProperties());
 
-            //сохраняем документ
             _wordDocument.MainDocumentPart!.Document.Save();
 
             _wordDocument.Close();

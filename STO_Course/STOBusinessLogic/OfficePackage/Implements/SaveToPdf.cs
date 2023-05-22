@@ -1,15 +1,10 @@
-﻿using BankYouBankruptBusinessLogic.OfficePackage.HelperEnums;
-using BankYouBankruptBusinessLogic.OfficePackage.HelperModels;
+﻿using STOBusinessLogic.OfficePackage.HelperEnums;
+using STOBusinessLogic.OfficePackage.HelperModels;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BankYouBankruptBusinessLogic.OfficePackage.Implements
+namespace STOBusinessLogic.OfficePackage.Implements
 {
     //реализация астрактного класса создания pdf документа
     public class SaveToPdf : AbstractSaveToPdf
