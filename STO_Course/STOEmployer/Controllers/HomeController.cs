@@ -118,6 +118,7 @@ namespace STOEmployer.Controllers
                 LabelName = x.Model + " " + x.Brand,
                 IsChecked = false,
                 Count = 0,
+				Object=x
             }).ToList());
         }
 
@@ -128,7 +129,7 @@ namespace STOEmployer.Controllers
 				DateCreate = DateTime.Now,
 				Cost = cost,
 				EmployerId = Employer.Id,
-				MaintenanceCars = Cars.Where(x => x.IsChecked).ToDictionary(x => x.Id, x => (new CarViewModel() as ICarModel, x.Count))
+				MaintenanceCars = Cars.Where(x => x.IsChecked).ToDictionary(x => x.Id, x => (x.Object as ICarModel, x.Count))
 			});
 			return Redirect("~/Home/IndexMaintenance");
 		}
@@ -147,6 +148,7 @@ namespace STOEmployer.Controllers
                 LabelName = x.Name,
                 IsChecked = false,
                 Count = 0,
+				Object=x
             }).ToList());
         }
 
@@ -157,7 +159,7 @@ namespace STOEmployer.Controllers
 				Brand = brand,
 				Model = model,
 				VIN = vin,
-				CarSpares = Spares.Where(x => x.IsChecked).ToDictionary(x => x.Id, x => (new SpareViewModel() as ISpareModel, x.Count))
+				CarSpares = Spares.Where(x => x.IsChecked).ToDictionary(x => x.Id, x => (x.Object as ISpareModel, x.Count))
 			});
 
             return Redirect("~/Home/IndexCar");
