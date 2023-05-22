@@ -70,6 +70,7 @@ namespace STODatabaseImplement.Models
                 Id = model.Id,
                 Title = model.Title,
                 Price = model.Price,
+                StorekeeperId= model.StorekeeperId,
                 DurationId = model.DurationId,
                 Duration = context.WorkDurations.First(x => x.Id == model.DurationId),
                 Spares = model.WorkSpares.Select(x => new WorkSpare {
@@ -96,8 +97,11 @@ namespace STODatabaseImplement.Models
             Id = Id,
             Title = Title,
             Price = Price,
+            StorekeeperId = StorekeeperId,
             Duration = Duration.Duration,
             DurationId = DurationId,
+            WorkMaintences = WorkMaintences,
+            WorkSpares = WorkSpares,
             Date = Date
         };
 

@@ -12,24 +12,24 @@
 	<h3>ТО:</h3>
 	@for (var item = 0; item < @Model.Maintenance.Count(); item++)
 	{
-		<div class="form-check form-switch">
+		<div class="form-check">
 			<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" asp-for="@Model.Maintenance[item].IsChecked">
 			<label class="form-check-label" for="flexSwitchCheckDefault">@Model.Maintenance[item].LabelName</label>
 			<input type="hidden" asp-for="@Model.Maintenance[item].Id" />
 			<input type="hidden" asp-for="@Model.Maintenance[item].LabelName" />
-			<input type="number" asp-for="@Model.Spares[item].Count" />
+			<input type="number" asp-for="@Model.Maintenance[item].Count" />
 		</div>
 	}
 	<hr>
 	<h3>Запчасти:</h3>
 	@for (var item = 0; item < @Model.Spares.Count(); item++)
 	{
-		<div class="form-check form-switch">
+		<div class="form-check">
 			<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" asp-for="@Model.Spares[item].IsChecked">
 			<label class="form-check-label" for="flexSwitchCheckDefault">@Model.Spares[item].LabelName</label>
 			<input type="hidden" asp-for="@Model.Spares[item].Id" />
 			<input type="hidden" asp-for="@Model.Spares[item].LabelName" />
-			<input type="hidden" asp-for="@Model.Spares[item].Count" />
+			<input type="number" asp-for="@Model.Spares[item].Count" />
 		</div>
 	}
 	<hr>

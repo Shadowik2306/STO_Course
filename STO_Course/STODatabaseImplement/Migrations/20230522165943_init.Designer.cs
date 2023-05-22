@@ -12,8 +12,8 @@ using STODatabaseImplement;
 namespace STODatabaseImplement.Migrations
 {
     [DbContext(typeof(STODatabase))]
-    [Migration("20230521202525_init2")]
-    partial class init2
+    [Migration("20230522165943_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -378,7 +378,7 @@ namespace STODatabaseImplement.Migrations
 
             modelBuilder.Entity("STODatabaseImplement.Models.Work", b =>
                 {
-                    b.HasOne("STODatabaseImplement.Models.WorkDuration", null)
+                    b.HasOne("STODatabaseImplement.Models.WorkDuration", "Duration")
                         .WithMany("Works")
                         .HasForeignKey("DurationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -389,6 +389,8 @@ namespace STODatabaseImplement.Migrations
                         .HasForeignKey("StorekeeperId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Duration");
                 });
 
             modelBuilder.Entity("STODatabaseImplement.Models.WorkMaintence", b =>

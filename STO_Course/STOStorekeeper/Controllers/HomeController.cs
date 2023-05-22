@@ -155,7 +155,7 @@ namespace STOEmployer.Controllers
         }
 
 		[HttpPost]
-		public IActionResult CreateWork(CheckboxWorkViewModel SparesAndMaintences, int duration, int price) {
+		public IActionResult CreateWork(CheckboxWorkViewModel SparesAndMaintences, int duration, int price, string title) {
 			_workDurationLogic.Create(new WorkDurationBindingModel()
 			{
 				Duration = duration,
@@ -163,13 +163,14 @@ namespace STOEmployer.Controllers
 
 			_workLogic.Create(new WorkBindingModel()
 			{
+				Title = title,
 				StorekeeperId = Storekeeper.Id,
 				Date = DateTime.Now,
 				DurationId = _workDurationLogic.ReadList(null).Last().Id,
 				Price = price,
 				WorkMaintences = SparesAndMaintences.Maintenance.Where(x => x.IsChecked).ToDictionary(x => x.Id, x => (x.Object as IMaintenanceModel, x.Count)),
 				WorkSpares = SparesAndMaintences.Spares.Where(x => x.IsChecked).ToDictionary(x => x.Id, x => (x.Object as ISpareModel, x.Count)),
-            });
+			}); 
 
             return Redirect("~/Home/IndexWork");
         }

@@ -375,7 +375,7 @@ namespace STODatabaseImplement.Migrations
 
             modelBuilder.Entity("STODatabaseImplement.Models.Work", b =>
                 {
-                    b.HasOne("STODatabaseImplement.Models.WorkDuration", null)
+                    b.HasOne("STODatabaseImplement.Models.WorkDuration", "Duration")
                         .WithMany("Works")
                         .HasForeignKey("DurationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -386,6 +386,8 @@ namespace STODatabaseImplement.Migrations
                         .HasForeignKey("StorekeeperId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Duration");
                 });
 
             modelBuilder.Entity("STODatabaseImplement.Models.WorkMaintence", b =>
