@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace STODatabaseImplement.Models
 {
-    public class WorkMaintence
+    public class WorkMaintenance
     {
         public int Id { get; set; }
 
@@ -15,7 +15,7 @@ namespace STODatabaseImplement.Models
         public int WorkId { get; set; }
 
         [Required]
-        public int MaintenceId { get; set; }
+        public int MaintenanceId { get; set; }
 
         [Required]
         public int Count { get; set; }

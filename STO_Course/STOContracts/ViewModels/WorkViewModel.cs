@@ -18,7 +18,7 @@ namespace STOContracts.ViewModels
 
         public Dictionary<int, (ISpareModel, int)> WorkSpares { get; set; } = new();
 
-        public Dictionary<int, (IMaintenanceModel, int)> WorkMaintences { get; set; } = new();
+        public Dictionary<int, (IMaintenanceModel, int)> WorkMaintenances { get; set; } = new();
 
         
     }

@@ -207,27 +207,26 @@ namespace STODatabaseImplement.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "WorkMaintences",
+                name: "WorkMaintenances",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     WorkId = table.Column<int>(type: "int", nullable: false),
-                    MaintenceId = table.Column<int>(type: "int", nullable: false),
-                    Count = table.Column<int>(type: "int", nullable: false),
-                    MaintenanceId = table.Column<int>(type: "int", nullable: false)
+                    MaintenanceId = table.Column<int>(type: "int", nullable: false),
+                    Count = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkMaintences", x => x.Id);
+                    table.PrimaryKey("PK_WorkMaintenances", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WorkMaintences_Maintenances_MaintenanceId",
+                        name: "FK_WorkMaintenances_Maintenances_MaintenanceId",
                         column: x => x.MaintenanceId,
                         principalTable: "Maintenances",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_WorkMaintences_Works_WorkId",
+                        name: "FK_WorkMaintenances_Works_WorkId",
                         column: x => x.WorkId,
                         principalTable: "Works",
                         principalColumn: "Id",
@@ -292,13 +291,13 @@ namespace STODatabaseImplement.Migrations
                 column: "CarId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkMaintences_MaintenanceId",
-                table: "WorkMaintences",
+                name: "IX_WorkMaintenances_MaintenanceId",
+                table: "WorkMaintenances",
                 column: "MaintenanceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkMaintences_WorkId",
-                table: "WorkMaintences",
+                name: "IX_WorkMaintenances_WorkId",
+                table: "WorkMaintenances",
                 column: "WorkId");
 
             migrationBuilder.CreateIndex(
@@ -335,7 +334,7 @@ namespace STODatabaseImplement.Migrations
                 name: "Services");
 
             migrationBuilder.DropTable(
-                name: "WorkMaintences");
+                name: "WorkMaintenances");
 
             migrationBuilder.DropTable(
                 name: "WorkSpares");
