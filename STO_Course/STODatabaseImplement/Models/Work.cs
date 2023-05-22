@@ -24,7 +24,7 @@ namespace STODatabaseImplement.Models
         [Required]
         public int DurationId { get; set; }
 
-        public virtual IWorkDurationModel Duration { get; set; }
+        public virtual WorkDuration Duration { get; set; }
 
         public DateTime Date { get; set; } = DateTime.Now;
 

@@ -45,6 +45,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
 	name: "default",
-	pattern: "{controller=Home}/{action=IndexCar}/{id?}");
+	pattern: "{controller=Home}/{action=IndexWork}/{id?}");
 
 app.Run();
