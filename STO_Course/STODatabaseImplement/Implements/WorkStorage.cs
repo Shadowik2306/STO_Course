@@ -19,7 +19,7 @@ namespace STODatabaseImplement.Implements
         public List<WorkViewModel> GetFullList()
         {
             using var context = new STODatabase();
-            return context.Works.Select(x => x.GetViewModel).ToList();
+            return context.Works.Include(x=>x.Duration).Select(x => x.GetViewModel).ToList();
         }
 
         public List<WorkViewModel> GetFilteredList(WorkSearchModel model)
@@ -29,7 +29,7 @@ namespace STODatabaseImplement.Implements
                 return new();
             }
             using var context = new STODatabase();
-            return context.Works.Select(x => x.GetViewModel).ToList();
+            return context.Works.Include(x => x.Duration).Select(x => x.GetViewModel).ToList();
         }
 
         public WorkViewModel? GetElement(WorkSearchModel model)
@@ -39,7 +39,7 @@ namespace STODatabaseImplement.Implements
                 return null;
             }
             using var context = new STODatabase();
-            return context.Works.FirstOrDefault(x => (model.Id.HasValue && x.Id == model.Id) ||
+            return context.Works.Include(x => x.Duration).FirstOrDefault(x => (model.Id.HasValue && x.Id == model.Id) ||
             (!string.IsNullOrEmpty(model.Title) && x.Title == model.Title))?.GetViewModel;
         }
 

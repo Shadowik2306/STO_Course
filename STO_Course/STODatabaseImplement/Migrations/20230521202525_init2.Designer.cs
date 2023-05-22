@@ -267,7 +267,7 @@ namespace STODatabaseImplement.Migrations
                     b.ToTable("WorkDurations");
                 });
 
-            modelBuilder.Entity("STODatabaseImplement.Models.WorkMaintence", b =>
+            modelBuilder.Entity("STODatabaseImplement.Models.WorkMaintenance", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -281,7 +281,7 @@ namespace STODatabaseImplement.Migrations
                     b.Property<int>("MaintenanceId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MaintenceId")
+                    b.Property<int>("MaintenanceId")
                         .HasColumnType("int");
 
                     b.Property<int>("WorkId")
@@ -293,7 +293,7 @@ namespace STODatabaseImplement.Migrations
 
                     b.HasIndex("WorkId");
 
-                    b.ToTable("WorkMaintences");
+                    b.ToTable("WorkMaintenances");
                 });
 
             modelBuilder.Entity("STODatabaseImplement.Models.WorkSpare", b =>
@@ -391,7 +391,7 @@ namespace STODatabaseImplement.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("STODatabaseImplement.Models.WorkMaintence", b =>
+            modelBuilder.Entity("STODatabaseImplement.Models.WorkMaintenance", b =>
                 {
                     b.HasOne("STODatabaseImplement.Models.Maintenance", "Maintenance")
                         .WithMany()
@@ -400,7 +400,7 @@ namespace STODatabaseImplement.Migrations
                         .IsRequired();
 
                     b.HasOne("STODatabaseImplement.Models.Work", "Work")
-                        .WithMany("Maintences")
+                        .WithMany("Maintenances")
                         .HasForeignKey("WorkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -453,7 +453,7 @@ namespace STODatabaseImplement.Migrations
 
             modelBuilder.Entity("STODatabaseImplement.Models.Work", b =>
                 {
-                    b.Navigation("Maintences");
+                    b.Navigation("Maintenances");
 
                     b.Navigation("Spares");
                 });
