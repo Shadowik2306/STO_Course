@@ -46,7 +46,7 @@ namespace STOEmployer.Controllers
 		public IActionResult Privacy() {
             if (Storekeeper is not null)
             {
-                return Redirect("IndexMaintenance");
+                return Redirect("IndexWork");
             }
             return View();
 		}
@@ -171,7 +171,7 @@ namespace STOEmployer.Controllers
 				WorkSpares = SparesAndMaintences.Spares.Where(x => x.IsChecked).ToDictionary(x => x.Id, x => (x.Object as ISpareModel, x.Count)),
             });
 
-            return Redirect("~/Home/IndexCar");
+            return Redirect("~/Home/IndexWork");
         }
     }
 }
