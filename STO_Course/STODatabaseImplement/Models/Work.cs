@@ -24,6 +24,8 @@ namespace STODatabaseImplement.Models
         [Required]
         public int DurationId { get; set; }
 
+        public virtual IWorkDurationModel Duration { get; set; }
+
         public DateTime Date { get; set; } = DateTime.Now;
 
         private Dictionary<int, (ISpareModel, int)>? _workSpares { get; set; } = null;
@@ -68,7 +70,9 @@ namespace STODatabaseImplement.Models
                 Id = model.Id,
                 Title = model.Title,
                 Price = model.Price,
-                Spares = model.WorkSpares.Select(x => new WorkSpare { 
+                DurationId = model.DurationId,
+                Duration = context.WorkDurations.First(x => x.Id == model.DurationId),
+                Spares = model.WorkSpares.Select(x => new WorkSpare {
                     Spare = context.Spares.First(y => y.Id == x.Key),
                     Count = x.Value.Item2
                 }).ToList(),
@@ -76,7 +80,8 @@ namespace STODatabaseImplement.Models
                 {
                     Maintenance = context.Maintenances.First(y => y.Id == x.Key),
                     Count = x.Value.Item2
-                }).ToList()
+                }).ToList(),
+                Date = model.Date
             };
         }
 
@@ -91,6 +96,9 @@ namespace STODatabaseImplement.Models
             Id = Id,
             Title = Title,
             Price = Price,
+            Duration = Duration.Duration,
+            DurationId = DurationId,
+            Date = Date
         };
 
         

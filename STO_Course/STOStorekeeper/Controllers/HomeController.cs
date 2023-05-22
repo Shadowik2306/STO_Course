@@ -85,16 +85,16 @@ namespace STOEmployer.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult IndexMaintenance() {
+		public IActionResult IndexSpare() {
             if (Employer is null)
             {
                 return Redirect("~/Home/Privacy");
             }
-            return View(_maintenanceLogic.ReadList(null));
+            return View(_spareLogic.ReadList(null));
         }
 
         [HttpGet]
-        public IActionResult IndexCar()
+        public IActionResult IndexWork()
         {
             if (Employer is null)
             {
@@ -105,56 +105,58 @@ namespace STOEmployer.Controllers
 
 
         [HttpGet]
-        public IActionResult CreateMaintenance()
+        public IActionResult CreateSpare()
         {
             if (Employer is null)
             {
                 return Redirect("~/Home/Privacy");
             }
 
-            return View(_carLogic.ReadList(null).Select(x => new CheckboxViewModel()
-            {
-                Id = x.Id,
-                LabelName = x.Model + " " + x.Brand,
-                IsChecked = false,
-                Count = 0,
-				Object=x
-            }).ToList());
+            return View();
         }
 
 		[HttpPost]
-		public IActionResult CreateMaintenance(List<CheckboxViewModel> Cars, int cost) {
-			_maintenanceLogic.Create(new MaintenanceBindingModel()
-			{
-				DateCreate = DateTime.Now,
-				Cost = cost,
-				EmployerId = Employer.Id,
-				MaintenanceCars = Cars.Where(x => x.IsChecked).ToDictionary(x => x.Id, x => (x.Object as ICarModel, x.Count))
+		public IActionResult CreateSpare(string name, int price) {
+			_spareLogic.Create(new SpareBindingModel() { 
+				Name = name,
+				Price = price
 			});
-			return Redirect("~/Home/IndexMaintenance");
+			return Redirect("~/Home/IndexSpare");
 		}
 
         [HttpGet]
-        public IActionResult CreateCar()
+        public IActionResult CreateWork()
         {
             if (Employer is null)
             {
                 return Redirect("~/Home/Privacy");
             }
 
-            return View(_spareLogic.ReadList(null).Select(x => new CheckboxViewModel()
-            {
+			CheckboxWorkViewModel model = new CheckboxWorkViewModel();
+
+			model.Maintenance = _maintenanceLogic.ReadList(null).Select(x => new CheckboxViewModel()
+			{
+				Id = x.Id,
+				LabelName = x.Id.ToString(),
+				IsChecked = false,
+				Count = 0,
+				Object = x
+			}).ToList();
+
+			model.Spares = _spareLogic.ReadList(null).Select(x => new CheckboxViewModel() {
                 Id = x.Id,
                 LabelName = x.Name,
                 IsChecked = false,
                 Count = 0,
-				Object=x
-            }).ToList());
+                Object = x
+            }).ToList();
+
+            return View(model);
         }
 
 		[HttpPost]
-		public IActionResult CreateCar(List<CheckboxViewModel> Spares, string brand, string model, string vin) {
-			_carLogic.Create(new CarBindingModel()
+		public IActionResult CreateWork(CheckboxWorkViewModel SparesAndMaintences) {
+			_workLogic.Create(new CarBindingModel()
 			{
 				Brand = brand,
 				Model = model,

@@ -11,6 +11,7 @@ namespace STOContracts.ViewModels
         [DisplayName("Цена")]
         public double Price { get; set; }
         public int DurationId { get; set; }
+        public int Duration { get; set; }
         public int StorekeeperId { get; set; }
 
         public DateTime Date { get; set; } = DateTime.Now;
