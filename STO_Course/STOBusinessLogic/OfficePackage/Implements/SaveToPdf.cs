@@ -3,11 +3,6 @@ using STOBusinessLogic.OfficePackage.HelperModels;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace STOBusinessLogic.OfficePackage.Implements
 {

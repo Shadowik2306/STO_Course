@@ -1,16 +1,10 @@
 ﻿using STOBusinessLogic.OfficePackage.HelperEnums;
 using STOBusinessLogic.OfficePackage.HelperModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace STOBusinessLogic.OfficePackage
 {
     public abstract class AbstractSaveToPdf
     {
-        //публичный метод создания документа. Описание методов ниже
         public void CreateDoc(PdfInfo info)
         {
             if(info.ForClient)
@@ -23,7 +17,6 @@ namespace STOBusinessLogic.OfficePackage
 			}
 		}
 
-		#region Отчёт для клиента
 
 		public void CreateDocClient(PdfInfo info)
 		{
@@ -44,7 +37,6 @@ namespace STOBusinessLogic.OfficePackage
 				ParagraphAlignment = PdfParagraphAlignmentType.Center
 			});
 
-			//параграф с отчётом на пополнения
 			CreateParagraph(new PdfParagraph { Text = "Отчёт по пополнениям", Style = "Normal", ParagraphAlignment = PdfParagraphAlignmentType.Center });
 
 			CreateTable(new List<string> { "3cm", "3cm", "5cm", "5cm" });
@@ -66,10 +58,8 @@ namespace STOBusinessLogic.OfficePackage
 				});
 			}
 
-			//подсчёт суммы операций на пополнение
 			CreateParagraph(new PdfParagraph { Text = $"Итоговая сумма поступлений за период: {info.ReportCrediting.Sum(x => x.SumOperation)}\t", Style = "Normal", ParagraphAlignment = PdfParagraphAlignmentType.Right });
 
-			//отчёт с отчётом на снятие
 			CreateParagraph(new PdfParagraph { Text = "Отчёт по снятиям", Style = "Normal", ParagraphAlignment = PdfParagraphAlignmentType.Center });
 
 			CreateTable(new List<string> { "3cm", "3cm", "5cm", "5cm" });
@@ -91,17 +81,13 @@ namespace STOBusinessLogic.OfficePackage
 				});
 			}
 
-			//подсчёт суммы операций на пополнение
 			CreateParagraph(new PdfParagraph { Text = $"Итоговая сумма снятий за период: {info.ReportDebiting.Sum(x => x.SumOperation)}\t", Style = "Normal", ParagraphAlignment = PdfParagraphAlignmentType.Right });
 
 			SavePdf(info);
 		}
 
-		#endregion
+		
 
-		#region Отчёт для кассира
-
-		//создание отчёта для кассира
 		public void CreateDocCashier(PdfInfo info)
 		{
 			CreatePdf(info);
@@ -120,7 +106,6 @@ namespace STOBusinessLogic.OfficePackage
 				ParagraphAlignment = PdfParagraphAlignmentType.Center
 			});
 
-			//параграф с отчётом по выдаче наличных с карт
 			CreateParagraph(new PdfParagraph { Text = "Отчёт по выдаче наличных со счёта", Style = "Normal", ParagraphAlignment = PdfParagraphAlignmentType.Center });
 
 			CreateTable(new List<string> { "3.5cm", "3.5cm", "5cm", "5cm" });
@@ -144,7 +129,6 @@ namespace STOBusinessLogic.OfficePackage
 
 			CreateParagraph(new PdfParagraph { Text = $"Итоговая сумма снятий за период: {info.ReportCashWithdrawal.Sum(x => x.SumOperation)}\t", Style = "Normal", ParagraphAlignment = PdfParagraphAlignmentType.Right });
 
-			//параграф с отчётом по переводу денег со счёта на счёт
 			CreateParagraph(new PdfParagraph { Text = "Отчёт по денежным переводам между счетами", Style = "Normal", ParagraphAlignment = PdfParagraphAlignmentType.Center });
 
 			CreateTable(new List<string> { "3cm", "3cm", "3cm", "4cm", "4cm" });
@@ -171,21 +155,15 @@ namespace STOBusinessLogic.OfficePackage
 			SavePdf(info);
 		}
 
-		#endregion
 
-		/// Создание pdf-файла
 		protected abstract void CreatePdf(PdfInfo info);
 
-        /// Создание параграфа с текстом
         protected abstract void CreateParagraph(PdfParagraph paragraph);
 
-        /// Создание таблицы
         protected abstract void CreateTable(List<string> columns);
 
-        /// Создание и заполнение строки
         protected abstract void CreateRow(PdfRowParameters rowParameters);
 
-        /// Сохранение файла
         protected abstract void SavePdf(PdfInfo info);
     }
 }

@@ -4,13 +4,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Office2013.Excel;
-using DocumentFormat.OpenXml.Office2016.Excel;
 using DocumentFormat.OpenXml;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace STOBusinessLogic.OfficePackage.Implements
 {
@@ -22,13 +16,11 @@ namespace STOBusinessLogic.OfficePackage.Implements
 
         private Worksheet? _worksheet;
 
-        //Настройка стилей для файла
         private static void CreateStyles(WorkbookPart workbookpart)
         {
             var sp = workbookpart.AddNewPart<WorkbookStylesPart>();
             sp.Stylesheet = new Stylesheet();
 
-            //настройка шрифта простого текста
             var fonts = new Fonts() { Count = 2U, KnownFonts = true };
 
             var fontUsual = new Font();
@@ -38,7 +30,6 @@ namespace STOBusinessLogic.OfficePackage.Implements
             fontUsual.Append(new FontFamilyNumbering() { Val = 2 });
             fontUsual.Append(new FontScheme() { Val = FontSchemeValues.Minor });
 
-            //настройка шрифта заголока
             var fontTitle = new Font();
             fontTitle.Append(new Bold());
             fontTitle.Append(new FontSize() { Val = 14D });
@@ -47,11 +38,9 @@ namespace STOBusinessLogic.OfficePackage.Implements
             fontTitle.Append(new FontFamilyNumbering() { Val = 2 });
             fontTitle.Append(new FontScheme() { Val = FontSchemeValues.Minor });
 
-            //добавление созданных шрифтов
             fonts.Append(fontUsual);
             fonts.Append(fontTitle);
 
-            //создание заливки
             var fills = new Fills() { Count = 2U };
 
             var fill1 = new Fill();
@@ -69,7 +58,6 @@ namespace STOBusinessLogic.OfficePackage.Implements
             fills.Append(fill1);
             fills.Append(fill2);
 
-            //стиль границ ячейки - незакрашенный (для заголовка) и закрашенный
             var borders = new Borders() { Count = 2U };
 
             var borderNoBorder = new Border();
@@ -108,7 +96,6 @@ namespace STOBusinessLogic.OfficePackage.Implements
             borders.Append(borderNoBorder);
             borders.Append(borderThin);
 
-            //формирование CellFormat из комбинаций шрифтов, заливок и т. д.
             var cellStyleFormats = new CellStyleFormats() { Count = 1U };
 
             var cellFormatStyle = new CellFormat()
@@ -160,7 +147,6 @@ namespace STOBusinessLogic.OfficePackage.Implements
                 ApplyFont = true
             };
 
-            //по итогу создали 3 стиля
             cellFormats.Append(cellFormatFont);
             cellFormats.Append(cellFormatFontAndBorder);
             cellFormats.Append(cellFormatTitle);
@@ -221,7 +207,6 @@ namespace STOBusinessLogic.OfficePackage.Implements
             sp.Stylesheet.Append(stylesheetExtensionList);
         }
 
-        //Получение номера стиля (одного из 3-х нами созданных) из типа
         private static uint GetStyleValue(ExcelStyleInfoType styleInfo)
         {
             return styleInfo switch
@@ -235,32 +220,26 @@ namespace STOBusinessLogic.OfficePackage.Implements
 
         protected override void CreateExcel(ExcelInfo info)
         {
-            //создаём документ Excel
             _spreadsheetDocument = SpreadsheetDocument.Create(info.FileName, SpreadsheetDocumentType.Workbook);
 
-            // Создаем книгу (в ней хранятся листы)
             var workbookpart = _spreadsheetDocument.AddWorkbookPart();
 
             workbookpart.Workbook = new Workbook();
 
             CreateStyles(workbookpart);
 
-            // Получаем/создаем хранилище текстов для книги
             _shareStringPart = _spreadsheetDocument.WorkbookPart!.GetPartsOfType<SharedStringTablePart>().Any()
                 ? _spreadsheetDocument.WorkbookPart.GetPartsOfType<SharedStringTablePart>().First()
                 : _spreadsheetDocument.WorkbookPart.AddNewPart<SharedStringTablePart>();
 
-            // Создаем SharedStringTable, если его нет
             if (_shareStringPart.SharedStringTable == null)
             {
                 _shareStringPart.SharedStringTable = new SharedStringTable();
             }
 
-            // Создаем лист в книгу
             var worksheetPart = workbookpart.AddNewPart<WorksheetPart>();
             worksheetPart.Worksheet = new Worksheet(new SheetData());
 
-            // Добавляем лист в книгу
             var sheets = _spreadsheetDocument.WorkbookPart.Workbook.AppendChild(new Sheets());
 
             var sheet = new Sheet()
@@ -275,7 +254,6 @@ namespace STOBusinessLogic.OfficePackage.Implements
             _worksheet = worksheetPart.Worksheet;
         }
 
-        //метод вставки в лист книги
         protected override void InsertCellInWorksheet(ExcelCellParameters excelParams)
         {
             if (_worksheet == null || _shareStringPart == null)
@@ -290,7 +268,6 @@ namespace STOBusinessLogic.OfficePackage.Implements
                 return;
             }
 
-            // Ищем строку, либо добавляем ее
             Row row;
 
             if (sheetData.Elements<Row>().Where(r => r.RowIndex! == excelParams.RowIndex).Any())
@@ -303,7 +280,6 @@ namespace STOBusinessLogic.OfficePackage.Implements
                 sheetData.Append(row);
             }
 
-            // Ищем нужную ячейку
             Cell cell;
 
             if (row.Elements<Cell>().Where(c => c.CellReference!.Value == excelParams.CellReference).Any())
@@ -312,8 +288,6 @@ namespace STOBusinessLogic.OfficePackage.Implements
             }
             else
             {
-                // Все ячейки должны быть последовательно друг за другом расположены
-                // нужно определить, после какой вставлять
                 Cell? refCell = null;
 
                 foreach (Cell rowCell in row.Elements<Cell>())
@@ -334,7 +308,6 @@ namespace STOBusinessLogic.OfficePackage.Implements
                 cell = newCell;
             }
 
-            // вставляем новый текст
             _shareStringPart.SharedStringTable.AppendChild(new SharedStringItem(new Text(excelParams.Text)));
             _shareStringPart.SharedStringTable.Save();
 
@@ -343,7 +316,6 @@ namespace STOBusinessLogic.OfficePackage.Implements
             cell.StyleIndex = GetStyleValue(excelParams.StyleInfo);
         }
 
-        //метод объединения ячеек
         protected override void MergeCells(ExcelMergeParameters excelParams)
         {
             if (_worksheet == null)
