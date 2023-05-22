@@ -47,8 +47,8 @@ namespace STOBusinessLogic.OfficePackage
                     rowIndex++;
                 }
 
-				
-			}
+                rowIndex++;
+            }
 
 			SaveExcel(info);
         }
