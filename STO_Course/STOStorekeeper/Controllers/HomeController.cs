@@ -100,7 +100,7 @@ namespace STOEmployer.Controllers
             {
                 return Redirect("~/Home/Privacy");
             }
-            return View(_carLogic.ReadList(null));
+            return View(_workLogic.ReadList(null));
         }
 
 
