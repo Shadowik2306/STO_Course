@@ -1,4 +1,6 @@
 using STOBusinessLogic.BusinessLogics;
+using STOBusinessLogic.OfficePackage.Implements;
+using STOBusinessLogic.OfficePackage;
 using STOContracts.BusinessLogicsContracts;
 using STOContracts.StoragesContracts;
 using STODatabaseImplement.Implements;
@@ -25,6 +27,7 @@ builder.Services.AddTransient<ISpareLogic, SpareLogic>();
 builder.Services.AddTransient<IStorekeeperLogic, StorekeeperLogic>();
 builder.Services.AddTransient<IWorkDurationLogic, WorkDurationLogic>();
 builder.Services.AddTransient<IWorkLogic, WorkLogic>();
+builder.Services.AddTransient<AbstractSaveToExcel, SaveToExcel>();
 
 var app = builder.Build();
 

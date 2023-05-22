@@ -1,8 +1,4 @@
 ﻿using STOContracts.ViewModels;
-using STOContracts.ViewModels.Client.Reports;
-using BankYouBankruptContracts.ViewModels;
-using BankYouBankruptContracts.ViewModels.Client.Reports;
-using STOContracts.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,8 +25,8 @@ namespace STOBusinessLogic.OfficePackage.HelperModels
 
 		public List<CarViewModel> ReportDebiting { get; set; } = new();
 
-        public List<ReportCashierViewModel> ReportMoneyTransfer { get; set; } = new();
+  //      public List<ReportCashierViewModel> ReportMoneyTransfer { get; set; } = new();
 
-		public List<ReportCashierViewModel> ReportCashWithdrawal { get; set; } = new();
+		//public List<ReportCashierViewModel> ReportCashWithdrawal { get; set; } = new();
 	}
 }

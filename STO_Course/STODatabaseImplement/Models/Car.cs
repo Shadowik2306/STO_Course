@@ -44,8 +44,8 @@ namespace STODatabaseImplement.Models
                 VIN = model.VIN,
                 Spares = model.CarSpares.Select(x => new CarSpare
                 {
-                    Car = context.Cars.First(y => y.Id == x.Key),
-                    Count = x.Value.Item2
+                    Count = x.Value.Item2,
+                    Spare = context.Spares.First(y => y.Id == x.Key)
                 }).ToList()
             };
         }

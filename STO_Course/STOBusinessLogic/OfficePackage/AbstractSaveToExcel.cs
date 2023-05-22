@@ -31,11 +31,21 @@ namespace STOBusinessLogic.OfficePackage
 				{
 					ColumnName = "A",
 					RowIndex = rowIndex,
-					Text = "Машина" +  car.Id,
+					Text = "Машина " +  car.Model + " " + car.Brand + " " + car.VIN,
 					StyleInfo = ExcelStyleInfoType.Text
 				});
 
-				rowIndex++;
+                rowIndex++;
+			    foreach (var spare in car.CarSpares) {
+                    InsertCellInWorksheet(new ExcelCellParameters
+                    {
+                        ColumnName = "B",
+                        RowIndex = rowIndex,
+                        Text = "Деталь " + spare.Value.Item1.Name,
+                        StyleInfo = ExcelStyleInfoType.Text
+                    });
+                    rowIndex++;
+                }
 
 				
 			}

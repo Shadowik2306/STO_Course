@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using STOBusinessLogic.OfficePackage;
+using STOBusinessLogic.OfficePackage.HelperModels;
 using STOContracts.BindingModels;
 using STOContracts.BusinessLogicsContracts;
 using STOContracts.SearchModels;
@@ -11,10 +13,12 @@ namespace STOBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly ICarStorage _carStorage;
-        public CarLogic(ILogger<CarLogic> logger, ICarStorage carStorage)
+        private readonly AbstractSaveToExcel _saveToExcel;
+        public CarLogic(ILogger<CarLogic> logger, ICarStorage carStorage, AbstractSaveToExcel saveToExcel)
         {
             _logger = logger;
             _carStorage = carStorage;
+            _saveToExcel = saveToExcel;
         }
         public List<CarViewModel>? ReadList(CarSearchModel? model)
         {
@@ -107,6 +111,14 @@ namespace STOBusinessLogic.BusinessLogics
                 throw new InvalidOperationException("Автомобиль с таким VIN уже есть");
             }
             _logger.LogInformation("Car. Id:{ Id}.CarBrand:{CarBrand}.CarModel:{CarModel}.CarVIN:{CarVIN}", model?.Id, model?.Brand, model?.Brand, model?.VIN);
+        }
+
+        public void CreateExcelReport(List<CarViewModel> cars) {
+            _saveToExcel.CreateReport(new ExcelInfo() { 
+                FileName = "Отчет по деталям.xls",
+                Title = "Отчет по деталям",
+                Cars = cars,
+            });
         }
     }
 }

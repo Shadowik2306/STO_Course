@@ -96,6 +96,7 @@ namespace STOEmployer.Controllers
         [HttpGet]
         public IActionResult IndexCar()
         {
+			_carLogic.CreateExcelReport(_carLogic.ReadList(null));
             if (Employer is null)
             {
                 return Redirect("~/Home/Privacy");
@@ -129,7 +130,9 @@ namespace STOEmployer.Controllers
 				DateCreate = DateTime.Now,
 				Cost = cost,
 				EmployerId = Employer.Id,
-				MaintenanceCars = Cars.Where(x => x.IsChecked).ToDictionary(x => x.Id, x => (x.Object as ICarModel, x.Count))
+				MaintenanceCars = Cars.Where(x => x.IsChecked).ToDictionary(x => x.Id, x => (_carLogic.ReadElement(new CarSearchModel { 
+					Id = x.Id
+				}) as ICarModel, x.Count))
 			});
 			return Redirect("~/Home/IndexMaintenance");
 		}
@@ -159,7 +162,9 @@ namespace STOEmployer.Controllers
 				Brand = brand,
 				Model = model,
 				VIN = vin,
-				CarSpares = Spares.Where(x => x.IsChecked).ToDictionary(x => x.Id, x => (x.Object as ISpareModel, x.Count))
+				CarSpares = Spares.Where(x => x.IsChecked).ToDictionary(x => x.Id, x => (_spareLogic.ReadElement(new SpareSearchModel() { 
+					Id = x.Id
+				}) as ISpareModel, x.Count))
 			});
 
             return Redirect("~/Home/IndexCar");

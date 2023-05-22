@@ -12,7 +12,7 @@ using STODatabaseImplement;
 namespace STODatabaseImplement.Migrations
 {
     [DbContext(typeof(STODatabase))]
-    [Migration("20230521201323_init")]
+    [Migration("20230522182138_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace STODatabaseImplement.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.4")
+                .HasAnnotation("ProductVersion", "7.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -281,9 +281,6 @@ namespace STODatabaseImplement.Migrations
                     b.Property<int>("MaintenanceId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MaintenanceId")
-                        .HasColumnType("int");
-
                     b.Property<int>("WorkId")
                         .HasColumnType("int");
 
@@ -378,7 +375,7 @@ namespace STODatabaseImplement.Migrations
 
             modelBuilder.Entity("STODatabaseImplement.Models.Work", b =>
                 {
-                    b.HasOne("STODatabaseImplement.Models.WorkDuration", null)
+                    b.HasOne("STODatabaseImplement.Models.WorkDuration", "Duration")
                         .WithMany("Works")
                         .HasForeignKey("DurationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -389,6 +386,8 @@ namespace STODatabaseImplement.Migrations
                         .HasForeignKey("StorekeeperId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Duration");
                 });
 
             modelBuilder.Entity("STODatabaseImplement.Models.WorkMaintenance", b =>
@@ -419,7 +418,7 @@ namespace STODatabaseImplement.Migrations
                         .IsRequired();
 
                     b.HasOne("STODatabaseImplement.Models.Work", "Work")
-                        .WithMany("Spares")
+                        .WithMany()
                         .HasForeignKey("WorkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -454,8 +453,6 @@ namespace STODatabaseImplement.Migrations
             modelBuilder.Entity("STODatabaseImplement.Models.Work", b =>
                 {
                     b.Navigation("Maintenances");
-
-                    b.Navigation("Spares");
                 });
 
             modelBuilder.Entity("STODatabaseImplement.Models.WorkDuration", b =>

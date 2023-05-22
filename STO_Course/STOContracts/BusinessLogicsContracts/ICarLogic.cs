@@ -11,5 +11,7 @@ namespace STOContracts.BusinessLogicsContracts
         bool Create(CarBindingModel model);
         bool Update(CarBindingModel model);
         bool Delete(CarBindingModel model);
+
+        void CreateExcelReport(List<CarViewModel> cars);
     }
 }

@@ -1,6 +1,4 @@
 ﻿using STOContracts.ViewModels;
-using BankYouBankruptContracts.ViewModels;
-using STOContracts.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
