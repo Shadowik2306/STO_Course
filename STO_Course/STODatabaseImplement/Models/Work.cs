@@ -42,7 +42,7 @@ namespace STODatabaseImplement.Models
             }
         }
 
-        [ForeignKey("WorkId")]
+        [NotMapped]
         public virtual List<WorkSpare> Spares { get; set; } = new();
 
         private Dictionary<int, (IMaintenanceModel, int)>? _workMaintenances = null;
