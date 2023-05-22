@@ -1,13 +1,13 @@
 ﻿@using STOContracts.ViewModels
 
-@model List<MaintenanceViewModel>
+@model List<SpareViewModel>
 
 @{
-	ViewData["Title"] = "Maintenances";
+	ViewData["Title"] = "Spares";
 }
 
 <div class="text-center">
-	<h1 class="display-4">ТО</h1>
+	<h1 class="display-4">Детали</h1>
 </div>
 
 
@@ -20,7 +20,7 @@
 		}
 
 			<p>
-				<a asp-action="CreateMaintenance">Создать ТО</a>
+				<a asp-action="CreateMaintenance">Создать детали</a>
 			</p>
 			<table class="table">
 				<thead>
@@ -29,13 +29,10 @@
 							Номер
 						</th>
 						<th>
+							Название
+						</th>
+						<th>
 							Стоимость
-						</th>
-						<th>
-							Дата создания
-						</th>
-						<th>
-							Работник
 						</th>
 					</tr>
 				</thead>
@@ -47,13 +44,10 @@
 							@Html.DisplayFor(modelItem => item.Id)
 								</td>
 								<td>
-							@Html.DisplayFor(modelItem => item.Cost)
+							@Html.DisplayFor(modelItem => item.Name)
 								</td>
 								<td>
-							@Html.DisplayFor(modelItem => item.DateCreate)
-								</td>
-								<td>
-							@Html.DisplayFor(modelItem => item.EmployerId)
+							@Html.DisplayFor(modelItem => item.Price)
 								</td>
 							</tr>
 				}
