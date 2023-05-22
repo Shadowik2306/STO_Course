@@ -8,14 +8,12 @@
 
   <ItemGroup>
     <Compile Remove="Implements\**" />
-    <Compile Remove="OfficePackage\**" />
     <EmbeddedResource Remove="Implements\**" />
-    <EmbeddedResource Remove="OfficePackage\**" />
     <None Remove="Implements\**" />
-    <None Remove="OfficePackage\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.20.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
   </ItemGroup>
 
