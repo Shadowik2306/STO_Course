@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STOBusinessLogic", "STOBusi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STODatabaseImplement", "STODatabaseImplement\STODatabaseImplement.csproj", "{E6195FD3-5524-4AD7-A387-4925559485CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STOEmployer", "STOEmployer\STOEmployer.csproj", "{9C8C5C3F-B3EF-4281-B93F-78D5C122BB5E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STOStorekeeper", "STOEmployer\STOStorekeeper.csproj", "{9C8C5C3F-B3EF-4281-B93F-78D5C122BB5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
