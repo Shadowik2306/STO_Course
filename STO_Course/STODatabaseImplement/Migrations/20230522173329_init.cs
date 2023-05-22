@@ -214,8 +214,7 @@ namespace STODatabaseImplement.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     WorkId = table.Column<int>(type: "int", nullable: false),
                     MaintenanceId = table.Column<int>(type: "int", nullable: false),
-                    Count = table.Column<int>(type: "int", nullable: false),
-                    MaintenanceId = table.Column<int>(type: "int", nullable: false)
+                    Count = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

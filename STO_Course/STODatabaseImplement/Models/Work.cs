@@ -24,6 +24,8 @@ namespace STODatabaseImplement.Models
         [Required]
         public int DurationId { get; set; }
 
+        public virtual WorkDuration Duration { get; set; }
+
         public DateTime Date { get; set; } = DateTime.Now;
 
         private Dictionary<int, (ISpareModel, int)>? _workSpares { get; set; } = null;
@@ -40,26 +42,26 @@ namespace STODatabaseImplement.Models
             }
         }
 
-        [ForeignKey("WorkId")]
+        [NotMapped]
         public virtual List<WorkSpare> Spares { get; set; } = new();
 
         private Dictionary<int, (IMaintenanceModel, int)>? _workMaintenances = null;
 
         [NotMapped]
-        public Dictionary<int, (IMaintenanceModel, int)> WorkMaintences
+        public Dictionary<int, (IMaintenanceModel, int)> WorkMaintenances
         {
             get
             {
                 if (_workMaintenances == null)
                 {
-                    _workMaintenances = Maintences.ToDictionary(recWM => recWM.MaintenceId, recWM =>
+                    _workMaintenances = Maintenances.ToDictionary(recWM => recWM.MaintenanceId, recWM =>
                     (recWM.Maintenance as IMaintenanceModel, recWM.Count));
                 }
                 return _workMaintenances;
             }
         }
         [ForeignKey("WorkId")]
-        public virtual List<WorkMaintence> Maintences { get; set; } = new();
+        public virtual List<WorkMaintenance> Maintenances { get; set; } = new();
 
         public static Work Create(STODatabase context, WorkBindingModel model)
         {
@@ -68,15 +70,19 @@ namespace STODatabaseImplement.Models
                 Id = model.Id,
                 Title = model.Title,
                 Price = model.Price,
-                Spares = model.WorkSpares.Select(x => new WorkSpare { 
+                StorekeeperId= model.StorekeeperId,
+                DurationId = model.DurationId,
+                Duration = context.WorkDurations.First(x => x.Id == model.DurationId),
+                Spares = model.WorkSpares.Select(x => new WorkSpare {
                     Spare = context.Spares.First(y => y.Id == x.Key),
                     Count = x.Value.Item2
                 }).ToList(),
-                Maintences = model.WorkMaintences.Select(x => new WorkMaintence
+                Maintenances = model.WorkMaintenances.Select(x => new WorkMaintenance
                 {
                     Maintenance = context.Maintenances.First(y => y.Id == x.Key),
                     Count = x.Value.Item2
-                }).ToList()
+                }).ToList(),
+                Date = model.Date
             };
         }
 
@@ -91,6 +97,12 @@ namespace STODatabaseImplement.Models
             Id = Id,
             Title = Title,
             Price = Price,
+            StorekeeperId = StorekeeperId,
+            Duration = Duration.Duration,
+            DurationId = DurationId,
+            WorkMaintenances = WorkMaintenances,
+            WorkSpares = WorkSpares,
+            Date = Date
         };
 
         
@@ -123,24 +135,24 @@ namespace STODatabaseImplement.Models
             _workSpares = null;
         }
 
-        public void UpdateMaintences(STODatabase context, WorkBindingModel model)
+        public void UpdateMaintenances(STODatabase context, WorkBindingModel model)
         {
-            var WorkMaintence = context.WorkMaintences.Where(rec => rec.WorkId == model.Id).ToList();
-            if (WorkMaintence != null && WorkMaintence.Count > 0)
+            var WorkMaintenance = context.WorkMaintenances.Where(rec => rec.WorkId == model.Id).ToList();
+            if (WorkMaintenance != null && WorkMaintenance.Count > 0)
             {
-                context.WorkMaintences.RemoveRange(WorkMaintence.Where(rec => !model.WorkMaintences.ContainsKey(rec.MaintenceId)));
+                context.WorkMaintenances.RemoveRange(WorkMaintenance.Where(rec => !model.WorkMaintenances.ContainsKey(rec.MaintenanceId)));
                 context.SaveChanges();
-                foreach (var updateComponent in WorkMaintence)
+                foreach (var updateComponent in WorkMaintenance)
                 {
-                    updateComponent.Count = model.WorkMaintences[updateComponent.MaintenceId].Item2;
-                    model.WorkMaintences.Remove(updateComponent.MaintenceId);
+                    updateComponent.Count = model.WorkMaintenances[updateComponent.MaintenanceId].Item2;
+                    model.WorkMaintenances.Remove(updateComponent.MaintenanceId);
                 }
                 context.SaveChanges();
             }
             var Work = context.Works.First(x => x.Id == Id);
-            foreach (var pc in model.WorkMaintences)
+            foreach (var pc in model.WorkMaintenances)
             {
-                context.WorkMaintences.Add(new WorkMaintence
+                context.WorkMaintenances.Add(new WorkMaintenance
                 {
                     Work = Work,
                     Maintenance = context.Maintenances.First(x => x.Id == pc.Key),
