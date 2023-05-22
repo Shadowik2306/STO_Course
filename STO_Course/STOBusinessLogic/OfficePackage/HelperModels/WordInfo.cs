@@ -1,4 +1,5 @@
 ﻿using BankYouBankruptContracts.ViewModels;
+using STOContracts.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,6 @@ namespace BankYouBankruptBusinessLogic.OfficePackage.HelperModels
         public string Title { get; set; } = string.Empty;
 
         //списки для формирования отчёта клиента
-        public List<AccountViewModel> Accounts { get; set; } = new();
+        public List<SpareViewModel> Accounts { get; set; } = new();
     }
 }

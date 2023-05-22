@@ -1,5 +1,6 @@
 ﻿using BankYouBankruptContracts.ViewModels;
 using BankYouBankruptContracts.ViewModels.Client.Reports;
+using STOContracts.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,15 +27,12 @@ namespace BankYouBankruptBusinessLogic.OfficePackage.HelperModels
         public string FullClientName { get; set; } = string.Empty;
 
         //перечень заказов за указанный период для вывода/сохранения
-        public List<ReportClientViewModel> ReportCrediting { get; set; } = new();
+        public List<SpareViewModel> ReportCrediting { get; set; } = new();
 
 		//перечень заказов за указанный период для вывода/сохранения
-		public List<ReportClientViewModel> ReportDebiting { get; set; } = new();
+		public List<CarViewModel> ReportDebiting { get; set; } = new();
 
         //перечень переводов со счёта на счёт
-        public List<ReportCashierViewModel> ReportMoneyTransfer { get; set; } = new();
-
-		//перечень зачислений денежных средств на карту (т. е. на её счёт)
-		public List<ReportCashierViewModel> ReportCashWithdrawal { get; set; } = new();
+        public List<MaintenanceViewModel> ReportMoneyTransfer { get; set; } = new();
 	}
 }

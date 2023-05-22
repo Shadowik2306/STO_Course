@@ -34,78 +34,20 @@ namespace BankYouBankruptBusinessLogic.OfficePackage
 			//номер строчки в докуметне
             uint rowIndex = 2;
 
-			foreach (var mt in info.MoneyTransfer)
+			foreach (var car in info.Cars)
 			{
 				//вставляет номер перевода
 				InsertCellInWorksheet(new ExcelCellParameters
 				{
 					ColumnName = "A",
 					RowIndex = rowIndex,
-					Text = "Перевод №" +  mt.Id,
+					Text = "Машина" +  car.Id,
 					StyleInfo = ExcelStyleInfoType.Text
 				});
 
 				rowIndex++;
 
-				//строчка с номером счёта отправителя
-				InsertCellInWorksheet(new ExcelCellParameters
-				{
-					ColumnName = "B",
-					RowIndex = rowIndex,
-					Text = "Номер счёта отправителя: ",
-					StyleInfo = ExcelStyleInfoType.TextWithBorder
-				});
-
-				//вставка номера отправителя
-				InsertCellInWorksheet(new ExcelCellParameters
-				{
-					ColumnName = "C",
-					RowIndex = rowIndex,
-					Text = mt.AccountSenderNumber,
-					StyleInfo = ExcelStyleInfoType.TextWithBorder
-				});
-
-				rowIndex++;
-
-				//строчка с номером счёта получателя
-				InsertCellInWorksheet(new ExcelCellParameters
-				{
-					ColumnName = "B",
-					RowIndex = rowIndex,
-					Text = "Номер счёта получателя: ",
-					StyleInfo = ExcelStyleInfoType.TextWithBorder
-				});
-
-				//вставка номера отправителя
-				InsertCellInWorksheet(new ExcelCellParameters
-				{
-					ColumnName = "C",
-					RowIndex = rowIndex,
-					Text = mt.AccountPayeeNumber,
-					StyleInfo = ExcelStyleInfoType.TextWithBorder
-				});
-
-				rowIndex++;
-
-				//Вставляет слово "Сумма перевода"
-				InsertCellInWorksheet(new ExcelCellParameters
-				{
-					ColumnName = "A",
-					RowIndex = rowIndex,
-					Text = "Сумма перевода: ",
-					StyleInfo = ExcelStyleInfoType.Text
-				});
-
-				//подсчитывает общее кол-во заготовок в изделии
-				InsertCellInWorksheet(new ExcelCellParameters
-				{
-					ColumnName = "C",
-					RowIndex = rowIndex,
-					Text = mt.Sum.ToString(),
-					StyleInfo = ExcelStyleInfoType.Text
-				});
-
-				rowIndex++;
+				
 			}
 
 			SaveExcel(info);
