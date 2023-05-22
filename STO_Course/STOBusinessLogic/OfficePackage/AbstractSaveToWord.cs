@@ -1,12 +1,12 @@
-﻿using BankYouBankruptBusinessLogic.OfficePackage.HelperEnums;
-using BankYouBankruptBusinessLogic.OfficePackage.HelperModels;
+﻿using STOBusinessLogic.OfficePackage.HelperEnums;
+using STOBusinessLogic.OfficePackage.HelperModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankYouBankruptBusinessLogic.OfficePackage
+namespace STOBusinessLogic.OfficePackage
 {
     public abstract class AbstractSaveToWord
     {

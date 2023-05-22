@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankYouBankruptBusinessLogic.OfficePackage.HelperModels
+namespace STOBusinessLogic.OfficePackage.HelperModels
 {
     //общая информация по pdf файлу
     public class PdfInfo

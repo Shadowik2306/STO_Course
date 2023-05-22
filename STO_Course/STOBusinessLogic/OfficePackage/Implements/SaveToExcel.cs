@@ -1,5 +1,5 @@
-﻿using BankYouBankruptBusinessLogic.OfficePackage.HelperModels;
-using BankYouBankruptBusinessLogic.OfficePackage.HelperEnums;
+﻿using STOBusinessLogic.OfficePackage.HelperModels;
+using STOBusinessLogic.OfficePackage.HelperEnums;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Office2010.Excel;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankYouBankruptBusinessLogic.OfficePackage.Implements
+namespace STOBusinessLogic.OfficePackage.Implements
 {
     public class SaveToExcel : AbstractSaveToExcel
     {

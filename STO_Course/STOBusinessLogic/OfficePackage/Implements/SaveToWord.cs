@@ -1,11 +1,11 @@
 ﻿
-using BankYouBankruptBusinessLogic.OfficePackage.HelperEnums;
-using BankYouBankruptBusinessLogic.OfficePackage.HelperModels;
+using STOBusinessLogic.OfficePackage.HelperEnums;
+using STOBusinessLogic.OfficePackage.HelperModels;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 
-namespace BankYouBankruptBusinessLogic.OfficePackage.Implements
+namespace STOBusinessLogic.OfficePackage.Implements
 {
     //реализация абстрактного класса сохранения в word
     public class SaveToWord : AbstractSaveToWord

@@ -1,11 +1,11 @@
-﻿using BankYouBankruptBusinessLogic.OfficePackage.HelperModels;
+﻿using STOBusinessLogic.OfficePackage.HelperModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankYouBankruptBusinessLogic.OfficePackage.Implements
+namespace STOBusinessLogic.OfficePackage.Implements
 {
 	public class SaveToWordCashier : AbstractSaveToWordCashier
 	{

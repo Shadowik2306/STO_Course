@@ -1,11 +1,11 @@
-﻿using BankYouBankruptBusinessLogic.OfficePackage.HelperEnums;
+﻿using STOBusinessLogic.OfficePackage.HelperEnums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankYouBankruptBusinessLogic.OfficePackage.HelperModels
+namespace STOBusinessLogic.OfficePackage.HelperModels
 {
     //модель свойств текста, которые нам нужны в word документе
     public class WordTextProperties

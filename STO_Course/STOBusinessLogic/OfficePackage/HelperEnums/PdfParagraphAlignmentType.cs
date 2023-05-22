@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankYouBankruptBusinessLogic.OfficePackage.HelperEnums
+namespace STOBusinessLogic.OfficePackage.HelperEnums
 {
     //вспомогательное перечисление для оформления pdf документа
     public enum PdfParagraphAlignmentType

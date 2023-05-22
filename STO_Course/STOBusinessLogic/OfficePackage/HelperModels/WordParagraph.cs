@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankYouBankruptBusinessLogic.OfficePackage.HelperModels
+namespace STOBusinessLogic.OfficePackage.HelperModels
 {
     //модель параграфов, которые есть в тексте
     public class WordParagraph
