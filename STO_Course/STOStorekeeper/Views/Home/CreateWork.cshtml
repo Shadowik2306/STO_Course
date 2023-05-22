@@ -17,6 +17,7 @@
 			<label class="form-check-label" for="flexSwitchCheckDefault">@Model.Maintenance[item].LabelName</label>
 			<input type="hidden" asp-for="@Model.Maintenance[item].Id" />
 			<input type="hidden" asp-for="@Model.Maintenance[item].LabelName" />
+			<input type="number" asp-for="@Model.Spares[item].Count" />
 		</div>
 	}
 	<hr>
@@ -28,6 +29,7 @@
 			<label class="form-check-label" for="flexSwitchCheckDefault">@Model.Spares[item].LabelName</label>
 			<input type="hidden" asp-for="@Model.Spares[item].Id" />
 			<input type="hidden" asp-for="@Model.Spares[item].LabelName" />
+			<input type="hidden" asp-for="@Model.Spares[item].Count" />
 		</div>
 	}
 	<hr>
