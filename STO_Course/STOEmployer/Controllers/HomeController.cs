@@ -124,6 +124,16 @@ namespace STOEmployer.Controllers
             return Redirect("~/Home/IndexCar");
         }
 
+        [HttpPost]
+        public IActionResult CreatePdfReport(DateTime dateFrom, DateTime dateTo)
+        {
+            _maintenanceLogic.createReportPdf(_maintenanceLogic.ReadList(new MaintenanceSearchModel() { 
+				DataFrom = dateFrom,
+				DateTo = dateTo,
+			}), dateTo, dateFrom);
+            return Redirect("~/Home/IndexCar");
+        }
+
         [HttpGet]
         public IActionResult CreateMaintenance()
         {

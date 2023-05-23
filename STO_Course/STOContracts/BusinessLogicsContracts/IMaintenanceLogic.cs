@@ -11,5 +11,6 @@ namespace STOContracts.BusinessLogicsContracts
         bool Create(MaintenanceBindingModel model);
         bool Update(MaintenanceBindingModel model);
         bool Delete(MaintenanceBindingModel model);
+        void createReportPdf(List<MaintenanceViewModel> model, DateTime to, DateTime from); 
     }
 }

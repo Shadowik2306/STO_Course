@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using STOBusinessLogic.OfficePackage;
+using STOBusinessLogic.OfficePackage.HelperModels;
 using STOContracts.BindingModels;
 using STOContracts.BusinessLogicsContracts;
 using STOContracts.SearchModels;
@@ -11,10 +13,12 @@ namespace STOBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly IMaintenanceStorage _maintenanceStorage;
-        public MaintenanceLogic(ILogger<MaintenanceLogic> logger, IMaintenanceStorage maintenanceStorage)
+        private readonly AbstractSaveToPdf _saveToPdf;
+        public MaintenanceLogic(ILogger<MaintenanceLogic> logger, IMaintenanceStorage maintenanceStorage, AbstractSaveToPdf saveToPdf)
         {
             _logger = logger;
             _maintenanceStorage = maintenanceStorage;
+            _saveToPdf = saveToPdf;
         }
         public List<MaintenanceViewModel>? ReadList(MaintenanceSearchModel? model)
         {
@@ -94,6 +98,16 @@ namespace STOBusinessLogic.BusinessLogics
                 throw new ArgumentNullException("Стоимость должна быть больше нуля", nameof(model.Cost));
             }
             _logger.LogInformation("Maintenance. MaintenanceId:{MaintenanceId}.EmployerId: { EmployerId}.Cost:{Cost}", model.Id, model.EmployerId, model.Cost);            
+        }
+
+        public void createReportPdf(List<MaintenanceViewModel> model, DateTime to, DateTime from) {
+            _saveToPdf.CreateDoc(new PdfInfo() {
+                FileName = "Отчет по ТО.pdf",
+                Title = "Отчет по ТО",
+                DateFrom = from,
+                DateTo = to,
+                Maintences = model,
+            });
         }
     }
 }

@@ -20,7 +20,12 @@ namespace STODatabaseImplement.Implements
         public List<MaintenanceViewModel> GetFilteredList(MaintenanceSearchModel model)
         {
             using var context = new STODatabase();
-            return context.Maintenances.Include(x => x.Cars).ThenInclude(x => x.Car).ToList().Select(x => x.GetViewModel).ToList();
+
+            if (model.DateTo.HasValue && model.DataFrom.HasValue) {
+                return context.Maintenances.Include(x => x.Cars).ThenInclude(x => x.Car).Where(x => (x.DateCreate >= model.DateTo && x.DateCreate <= model.DataFrom)).Select(x => x.GetViewModel).ToList();
+            }
+
+            return context.Maintenances.Include(x => x.Cars).ThenInclude(x => x.Car).Select(x => x.GetViewModel).ToList();
         }
 
         public MaintenanceViewModel? GetElement(MaintenanceSearchModel model)

@@ -1,4 +1,5 @@
-﻿using STOBusinessLogic.OfficePackage.HelperEnums;
+﻿using DocumentFormat.OpenXml.Bibliography;
+using STOBusinessLogic.OfficePackage.HelperEnums;
 using STOBusinessLogic.OfficePackage.HelperModels;
 
 namespace STOBusinessLogic.OfficePackage
@@ -7,152 +8,51 @@ namespace STOBusinessLogic.OfficePackage
     {
         public void CreateDoc(PdfInfo info)
         {
-            if(info.ForClient)
-			{
-				CreateDocClient(info);
-			}
-			else
-			{
-				CreateDocCashier(info);
-			}
+			
+			CreatePDF(info);
 		}
 
 
-		public void CreateDocClient(PdfInfo info)
+		public void CreatePDF(PdfInfo info)
 		{
 			CreatePdf(info);
 
-			//CreateParagraph(new PdfParagraph
-			//{
-			//	Text = info.Title + $"\nот {DateTime.Now.ToShortDateString()}",
 
-			//	Style = "NormalTitle",
-			//	ParagraphAlignment = PdfParagraphAlignmentType.Center
-			//});
+			CreateParagraph(new PdfParagraph
+			{
+				Text = $"Расчётный период: с {info.DateFrom.ToShortDateString()} по {info.DateTo.ToShortDateString()}",
+				Style = "Normal",
+				ParagraphAlignment = PdfParagraphAlignmentType.Center
+			});
 
-			//CreateParagraph(new PdfParagraph
-			//{
-			//	Text = $"Расчётный период: с {info.DateFrom.ToShortDateString()} по {info.DateTo.ToShortDateString()}",
-			//	Style = "Normal",
-			//	ParagraphAlignment = PdfParagraphAlignmentType.Center
-			//});
+			CreateParagraph(new PdfParagraph { Text = "Отчёт по ТО", Style = "Normal", ParagraphAlignment = PdfParagraphAlignmentType.Center });
 
-			//CreateParagraph(new PdfParagraph { Text = "Отчёт по пополнениям", Style = "Normal", ParagraphAlignment = PdfParagraphAlignmentType.Center });
+			CreateTable(new List<string> { "3cm", "4cm", "4cm", "5cm" });
 
-			//CreateTable(new List<string> { "3cm", "3cm", "5cm", "5cm" });
+			CreateRow(new PdfRowParameters
+			{
+				Texts = new List<string> { "Номер ТО", "Машина", "Деталь", "Дата операции" },
+				Style = "NormalTitle",
+				ParagraphAlignment = PdfParagraphAlignmentType.Center
+			});
 
-			//CreateRow(new PdfRowParameters
-			//{
-			//	Texts = new List<string> { "Номер операции", "Номер карты", "Сумма", "Дата операции" },
-			//	Style = "NormalTitle",
-			//	ParagraphAlignment = PdfParagraphAlignmentType.Center
-			//});
-
-			//foreach (var report in info.ReportCrediting)
-			//{
-			//	CreateRow(new PdfRowParameters
-			//	{
-			//		Texts = new List<string> { report.OperationId.ToString(), report.CardNumber, report.SumOperation.ToString(), report.DateComplite.ToString() },
-			//		Style = "Normal",
-			//		ParagraphAlignment = PdfParagraphAlignmentType.Left
-			//	});
-			//}
-
-			//CreateParagraph(new PdfParagraph { Text = $"Итоговая сумма поступлений за период: {info.ReportCrediting.Sum(x => x.SumOperation)}\t", Style = "Normal", ParagraphAlignment = PdfParagraphAlignmentType.Right });
-
-			//CreateParagraph(new PdfParagraph { Text = "Отчёт по снятиям", Style = "Normal", ParagraphAlignment = PdfParagraphAlignmentType.Center });
-
-			//CreateTable(new List<string> { "3cm", "3cm", "5cm", "5cm" });
-
-			//CreateRow(new PdfRowParameters
-			//{
-			//	Texts = new List<string> { "Номер операции", "Номер карты", "Сумма", "Дата операции" },
-			//	Style = "NormalTitle",
-			//	ParagraphAlignment = PdfParagraphAlignmentType.Center
-			//});
-
-			//foreach (var report in info.ReportDebiting)
-			//{
-			//	CreateRow(new PdfRowParameters
-			//	{
-			//		Texts = new List<string> { report.OperationId.ToString(), report.CardNumber, report.SumOperation.ToString(), report.DateComplite.ToString() },
-			//		Style = "Normal",
-			//		ParagraphAlignment = PdfParagraphAlignmentType.Left
-			//	});
-			//}
-
-			//CreateParagraph(new PdfParagraph { Text = $"Итоговая сумма снятий за период: {info.ReportDebiting.Sum(x => x.SumOperation)}\t", Style = "Normal", ParagraphAlignment = PdfParagraphAlignmentType.Right });
-
-			SavePdf(info);
-		}
-
+			foreach (var maintence in info.Maintences)
+			{
+				foreach (var car in maintence.MaintenanceCars)
+				{
+					foreach (var spare in car.Value.Item1.CarSpares)
+					{
+                        CreateRow(new PdfRowParameters
+						{
+							Texts = new List<string> { maintence.Id.ToString(), car.Value.Item1.Brand + " " + car.Value.Item1.Model, spare.Value.Item1.Name, maintence.DateCreate.ToString() },
+							Style = "Normal",
+							ParagraphAlignment = PdfParagraphAlignmentType.Left
+						});
+					}
+				}
+			}
 		
-
-		public void CreateDocCashier(PdfInfo info)
-		{
-			//CreatePdf(info);
-
-			//CreateParagraph(new PdfParagraph
-			//{
-			//	Text = info.Title + $"\nот {DateTime.Now.ToShortDateString()}\nФИО клиента: {info.FullClientName}",
-			//	Style = "NormalTitle",
-			//	ParagraphAlignment = PdfParagraphAlignmentType.Center
-			//});
-
-			//CreateParagraph(new PdfParagraph
-			//{
-			//	Text = $"Расчётный период: с {info.DateFrom.ToShortDateString()} по {info.DateTo.ToShortDateString()}",
-			//	Style = "Normal",
-			//	ParagraphAlignment = PdfParagraphAlignmentType.Center
-			//});
-
-			//CreateParagraph(new PdfParagraph { Text = "Отчёт по выдаче наличных со счёта", Style = "Normal", ParagraphAlignment = PdfParagraphAlignmentType.Center });
-
-			//CreateTable(new List<string> { "3.5cm", "3.5cm", "5cm", "5cm" });
-
-			//CreateRow(new PdfRowParameters
-			//{
-			//	Texts = new List<string> { "Номер операции", "Номер счёта", "Сумма операции", "Дата операции" },
-			//	Style = "NormalTitle",
-			//	ParagraphAlignment = PdfParagraphAlignmentType.Center
-			//});
-
-			//foreach (var report in info.ReportCashWithdrawal)
-			//{
-			//	CreateRow(new PdfRowParameters
-			//	{
-			//		Texts = new List<string> { report.OperationId.ToString(), report.AccountPayeeNumber, report.SumOperation.ToString(), report.DateComplite.ToShortDateString(), },
-			//		Style = "Normal",
-			//		ParagraphAlignment = PdfParagraphAlignmentType.Left
-			//	});
-			//}
-
-			//CreateParagraph(new PdfParagraph { Text = $"Итоговая сумма снятий за период: {info.ReportCashWithdrawal.Sum(x => x.SumOperation)}\t", Style = "Normal", ParagraphAlignment = PdfParagraphAlignmentType.Right });
-
-			//CreateParagraph(new PdfParagraph { Text = "Отчёт по денежным переводам между счетами", Style = "Normal", ParagraphAlignment = PdfParagraphAlignmentType.Center });
-
-			//CreateTable(new List<string> { "3cm", "3cm", "3cm", "4cm", "4cm" });
-
-			//CreateRow(new PdfRowParameters
-			//{
-			//	Texts = new List<string> { "Номер операции", "Номер счёта отправителя", "Номер счёта получателя", "Сумма операции", "Дата операции" },
-			//	Style = "NormalTitle",
-			//	ParagraphAlignment = PdfParagraphAlignmentType.Center
-			//});
-
-			//foreach (var report in info.ReportMoneyTransfer)
-			//{
-			//	CreateRow(new PdfRowParameters
-			//	{
-			//		Texts = new List<string> { report.OperationId.ToString(), report.AccountSenderNumber, report.AccountPayeeNumber, report.SumOperation.ToString(), report.DateComplite.ToShortDateString(), },
-			//		Style = "Normal",
-			//		ParagraphAlignment = PdfParagraphAlignmentType.Left
-			//	});
-			//}
-
-			//CreateParagraph(new PdfParagraph { Text = $"Итоговая сумма переводов за период: {info.ReportMoneyTransfer.Sum(x => x.SumOperation)}\t", Style = "Normal", ParagraphAlignment = PdfParagraphAlignmentType.Right });
-
-			//SavePdf(info);
+			SavePdf(info);
 		}
 
 

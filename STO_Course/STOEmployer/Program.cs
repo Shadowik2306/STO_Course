@@ -29,6 +29,7 @@ builder.Services.AddTransient<IWorkDurationLogic, WorkDurationLogic>();
 builder.Services.AddTransient<IWorkLogic, WorkLogic>();
 builder.Services.AddTransient<AbstractSaveToExcel, SaveToExcel>();
 builder.Services.AddTransient<AbstractSaveToWord, SaveToWord>();
+builder.Services.AddTransient<AbstractSaveToPdf, SaveToPdf>();
 
 var app = builder.Build();
 

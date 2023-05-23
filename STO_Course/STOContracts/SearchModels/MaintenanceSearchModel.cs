@@ -5,6 +5,7 @@
         public int? Id { get; set; }
         public int? EmployerId { get; set; }
         public double? Cost { get; set; }
-        public DateTime? Date { get; set; }
+        public DateTime? DateTo { get; set; }
+        public DateTime? DataFrom { get; set; }
     }
 }
