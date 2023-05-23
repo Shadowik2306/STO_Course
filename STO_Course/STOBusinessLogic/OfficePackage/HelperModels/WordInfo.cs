@@ -13,6 +13,6 @@ namespace STOBusinessLogic.OfficePackage.HelperModels
 
         public string Title { get; set; } = string.Empty;
 
-        public List<SpareViewModel> Accounts { get; set; } = new();
+        public List<CarViewModel> Cars { get; set; } = new();
     }
 }

@@ -44,6 +44,14 @@ namespace STOBusinessLogic.OfficePackage
                         Text = "Деталь " + spare.Value.Item1.Name,
                         StyleInfo = ExcelStyleInfoType.Text
                     });
+
+                    InsertCellInWorksheet(new ExcelCellParameters
+                    {
+                        ColumnName = "С",
+                        RowIndex = rowIndex,
+                        Text =  spare.Value.Item2.ToString(),
+                        StyleInfo = ExcelStyleInfoType.Text
+                    });
                     rowIndex++;
                 }
 

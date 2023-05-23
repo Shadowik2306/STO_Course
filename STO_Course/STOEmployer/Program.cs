@@ -28,6 +28,7 @@ builder.Services.AddTransient<IStorekeeperLogic, StorekeeperLogic>();
 builder.Services.AddTransient<IWorkDurationLogic, WorkDurationLogic>();
 builder.Services.AddTransient<IWorkLogic, WorkLogic>();
 builder.Services.AddTransient<AbstractSaveToExcel, SaveToExcel>();
+builder.Services.AddTransient<AbstractSaveToWord, SaveToWord>();
 
 var app = builder.Build();
 

@@ -13,5 +13,7 @@ namespace STOContracts.BusinessLogicsContracts
         bool Delete(CarBindingModel model);
 
         void CreateExcelReport(List<CarViewModel> cars);
+
+        public void CreateWordReport(List<CarViewModel> cars)
     }
 }

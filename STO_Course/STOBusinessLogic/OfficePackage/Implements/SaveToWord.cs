@@ -3,6 +3,8 @@ using STOBusinessLogic.OfficePackage.HelperModels;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using STOContracts.BindingModels;
+using System.Collections.Generic;
 
 namespace STOBusinessLogic.OfficePackage.Implements
 {
@@ -132,6 +134,76 @@ namespace STOBusinessLogic.OfficePackage.Implements
             _wordDocument.MainDocumentPart!.Document.Save();
 
             _wordDocument.Close();
+        }
+
+        protected override void CreateTable(WordParagraph paragraph)
+        {
+            if (_docBody == null || paragraph == null)
+            {
+                return;
+            }
+
+            Table table = new Table();
+
+            var tableProp = new TableProperties();
+
+            tableProp.AppendChild(new TableLayout { Type = TableLayoutValues.Fixed });
+            tableProp.AppendChild(new TableBorders(
+                    new TopBorder() { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 4 },
+                    new LeftBorder() { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 4 },
+                    new RightBorder() { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 4 },
+                    new BottomBorder() { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 4 },
+                    new InsideHorizontalBorder() { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 4 },
+                    new InsideVerticalBorder() { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 4 }
+                ));
+            tableProp.AppendChild(new TableWidth { Type = TableWidthUnitValues.Auto });
+
+            table.AppendChild(tableProp);
+
+            TableGrid tableGrid = new TableGrid();
+
+            for (int j = 0; j < paragraph.RowTexts[0].Count; ++j)
+            {
+                tableGrid.AppendChild(new GridColumn() { Width = "2500" });
+            }
+
+            table.AppendChild(tableGrid);
+
+            for (int i = 0; i < paragraph.RowTexts.Count; ++i)
+            {
+                TableRow docRow = new TableRow();
+
+                for (int j = 0; j < paragraph.RowTexts[i].Count; ++j)
+                {
+                    var docParagraph = new Paragraph();
+
+                    docParagraph.AppendChild(CreateParagraphProperties(paragraph.RowTexts[i][j].Item2));
+
+                    var docRun = new Run();
+
+                    var properties = new RunProperties();
+
+                    properties.AppendChild(new FontSize { Val = paragraph.RowTexts[i][j].Item2.Size });
+
+                    if (paragraph.RowTexts[i][j].Item2.Bold)
+                    {
+                        properties.AppendChild(new Bold());
+                    }
+
+                    docRun.AppendChild(properties);
+
+                    docRun.AppendChild(new Text { Text = paragraph.RowTexts[i][j].Item1, Space = SpaceProcessingModeValues.Preserve });
+
+                    docParagraph.AppendChild(docRun);
+                    TableCell docCell = new TableCell();
+                    docCell.AppendChild(docParagraph);
+                    docRow.AppendChild(docCell);
+                }
+
+                table.AppendChild(docRow);
+            }
+
+            _docBody.AppendChild(table);
         }
     }
 }

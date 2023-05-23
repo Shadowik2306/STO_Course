@@ -14,11 +14,13 @@ namespace STOBusinessLogic.BusinessLogics
         private readonly ILogger _logger;
         private readonly ICarStorage _carStorage;
         private readonly AbstractSaveToExcel _saveToExcel;
-        public CarLogic(ILogger<CarLogic> logger, ICarStorage carStorage, AbstractSaveToExcel saveToExcel)
+        private readonly AbstractSaveToWord _saveToWord;
+        public CarLogic(ILogger<CarLogic> logger, ICarStorage carStorage, AbstractSaveToExcel saveToExcel, AbstractSaveToWord saveToWord)
         {
             _logger = logger;
             _carStorage = carStorage;
             _saveToExcel = saveToExcel;
+            _saveToWord = saveToWord;
         }
         public List<CarViewModel>? ReadList(CarSearchModel? model)
         {
@@ -116,6 +118,16 @@ namespace STOBusinessLogic.BusinessLogics
         public void CreateExcelReport(List<CarViewModel> cars) {
             _saveToExcel.CreateReport(new ExcelInfo() { 
                 FileName = "Отчет по деталям.xls",
+                Title = "Отчет по деталям",
+                Cars = cars,
+            });
+        }
+
+        public void CreateWordReport(List<CarViewModel> cars)
+        {
+            _saveToWord.CreateDoc(new WordInfo()
+            {
+                FileName = "Отчет по деталям.dock",
                 Title = "Отчет по деталям",
                 Cars = cars,
             });
