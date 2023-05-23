@@ -14,6 +14,6 @@ namespace STOContracts.BusinessLogicsContracts
 
         void CreateExcelReport(List<CarViewModel> cars);
 
-        public void CreateWordReport(List<CarViewModel> cars)
+        public void CreateWordReport(List<CarViewModel> cars);
     }
 }

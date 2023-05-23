@@ -117,6 +117,13 @@ namespace STOEmployer.Controllers
 			return Redirect("~/Home/IndexCar");
 		}
 
+        [HttpPost]
+        public IActionResult CreateWordReport()
+        {
+            _carLogic.CreateWordReport(_carLogic.ReadList(null));
+            return Redirect("~/Home/IndexCar");
+        }
+
         [HttpGet]
         public IActionResult CreateMaintenance()
         {

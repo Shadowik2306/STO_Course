@@ -127,7 +127,7 @@ namespace STOBusinessLogic.BusinessLogics
         {
             _saveToWord.CreateDoc(new WordInfo()
             {
-                FileName = "Отчет по деталям.dock",
+                FileName = "Отчет по деталям.doc",
                 Title = "Отчет по деталям",
                 Cars = cars,
             });
