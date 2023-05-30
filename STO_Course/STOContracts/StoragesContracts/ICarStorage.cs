@@ -13,6 +13,6 @@ namespace STOContracts.StoragesContracts
         CarViewModel? Update(CarBindingModel model);
         CarViewModel? Delete(CarBindingModel model);
 
-        
+        public List<SpareViewModel>? GetSpares(CarSearchModel model);
     }
 }

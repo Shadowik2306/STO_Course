@@ -1,4 +1,5 @@
-﻿using STOContracts.ViewModels;
+﻿using STOContracts.StoragesContracts;
+using STOContracts.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,7 @@ namespace STOBusinessLogic.OfficePackage.HelperModels
         public DateTime DateTo { get; set; }
 
         public List<MaintenanceViewModel> Maintences { get; set; } = new();
+
+        public ICarStorage car { get; set; }
     }
 }

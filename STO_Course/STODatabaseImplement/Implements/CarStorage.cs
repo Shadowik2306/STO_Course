@@ -92,6 +92,9 @@ namespace STODatabaseImplement.Implements
             return null;
         }
 
-
+        public List<SpareViewModel>? GetSpares(CarSearchModel model) {
+            using var context = new STODatabase();
+            return context.CarSpares.Where(rec => rec.CarId == model.Id).Select(x => context.Spares.Where(y => y.Id == x.SpareId).Select(y=>y.GetViewModel).First()).ToList();
+        }
     }
 }

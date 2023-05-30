@@ -130,7 +130,7 @@ namespace STOEmployer.Controllers
             _maintenanceLogic.createReportPdf(_maintenanceLogic.ReadList(new MaintenanceSearchModel() { 
 				DataFrom = dateFrom,
 				DateTo = dateTo,
-			}), dateTo, dateFrom);
+			}),Employer, dateTo, dateFrom);
             return Redirect("~/Home/IndexCar");
         }
 

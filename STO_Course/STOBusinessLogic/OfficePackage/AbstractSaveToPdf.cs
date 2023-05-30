@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml.Bibliography;
 using STOBusinessLogic.OfficePackage.HelperEnums;
 using STOBusinessLogic.OfficePackage.HelperModels;
+using STOContracts.SearchModels;
 
 namespace STOBusinessLogic.OfficePackage
 {
@@ -40,11 +41,11 @@ namespace STOBusinessLogic.OfficePackage
 			{
 				foreach (var car in maintence.MaintenanceCars)
 				{
-					foreach (var spare in car.Value.Item1.CarSpares)
+					foreach (var spare in info.car.GetSpares(new CarSearchModel() {  Id = car.Value.Item1.Id }))
 					{
                         CreateRow(new PdfRowParameters
 						{
-							Texts = new List<string> { maintence.Id.ToString(), car.Value.Item1.Brand + " " + car.Value.Item1.Model, spare.Value.Item1.Name, maintence.DateCreate.ToString() },
+							Texts = new List<string> { maintence.Id.ToString(), car.Value.Item1.Brand + " " + car.Value.Item1.Model, spare.Name, maintence.DateCreate.ToString() },
 							Style = "Normal",
 							ParagraphAlignment = PdfParagraphAlignmentType.Left
 						});

@@ -4,11 +4,15 @@ using STOBusinessLogic.OfficePackage;
 using STOContracts.BusinessLogicsContracts;
 using STOContracts.StoragesContracts;
 using STODatabaseImplement.Implements;
+using STOBusinessLogic.Mail;
+using STOContracts.BindingModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddSingleton<MailWorker>();
 
 builder.Services.AddTransient<ICarStorage, CarStorage>();
 builder.Services.AddTransient<IEmployerStorage, EmployerStorage>();
@@ -40,6 +44,15 @@ if (!app.Environment.IsDevelopment())
 	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 	app.UseHsts();
 }
+
+var mailSender = app.Services.GetService<MailWorker>();
+mailSender?.MailConfig(new MailConfigBindingModel
+{
+	MailLogin = builder.Configuration?.GetSection("MailLogin")?.Value?.ToString() ?? string.Empty,
+	MailPassword = builder.Configuration?.GetSection("MailPassword")?.Value?.ToString() ?? string.Empty,
+	SmtpClientHost = builder.Configuration?.GetSection("SmtpClientHost")?.Value?.ToString() ?? string.Empty,
+	SmtpClientPort = Convert.ToInt32(builder.Configuration?.GetSection("SmtpClientPort")?.Value?.ToString()),
+});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using STOBusinessLogic.Mail;
 using STOBusinessLogic.OfficePackage;
 using STOBusinessLogic.OfficePackage.HelperModels;
 using STOContracts.BindingModels;
@@ -14,11 +15,15 @@ namespace STOBusinessLogic.BusinessLogics
         private readonly ILogger _logger;
         private readonly IMaintenanceStorage _maintenanceStorage;
         private readonly AbstractSaveToPdf _saveToPdf;
-        public MaintenanceLogic(ILogger<MaintenanceLogic> logger, IMaintenanceStorage maintenanceStorage, AbstractSaveToPdf saveToPdf)
+        private readonly ICarStorage _carStorage;
+        private readonly MailWorker _mailKitWorker;
+        public MaintenanceLogic(ILogger<MaintenanceLogic> logger, IMaintenanceStorage maintenanceStorage, AbstractSaveToPdf saveToPdf, ICarStorage carStorage, MailWorker mailWorker)
         {
             _logger = logger;
             _maintenanceStorage = maintenanceStorage;
             _saveToPdf = saveToPdf;
+            _carStorage = carStorage;
+            _mailKitWorker = mailWorker;
         }
         public List<MaintenanceViewModel>? ReadList(MaintenanceSearchModel? model)
         {
@@ -100,14 +105,24 @@ namespace STOBusinessLogic.BusinessLogics
             _logger.LogInformation("Maintenance. MaintenanceId:{MaintenanceId}.EmployerId: { EmployerId}.Cost:{Cost}", model.Id, model.EmployerId, model.Cost);            
         }
 
-        public void createReportPdf(List<MaintenanceViewModel> model, DateTime to, DateTime from) {
+        public void createReportPdf(List<MaintenanceViewModel> model, EmployerViewModel employer, DateTime to, DateTime from) {
             _saveToPdf.CreateDoc(new PdfInfo() {
                 FileName = "Отчет по ТО.pdf",
                 Title = "Отчет по ТО",
                 DateFrom = from,
                 DateTo = to,
                 Maintences = model,
+                car = _carStorage
+            });
+
+            _mailKitWorker.SendMailAsync(new()
+            {
+                MailAddress = employer.Email,
+                Subject = "Отчёт по ТО",
+                Text = $"Отчёт по состоянию на {DateTime.Now.ToString()}",
+                File = System.IO.File.ReadAllBytes("Отчет по ТО.pdf")
             });
         }
+
     }
 }

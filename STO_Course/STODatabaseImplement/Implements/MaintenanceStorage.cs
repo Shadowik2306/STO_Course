@@ -22,7 +22,7 @@ namespace STODatabaseImplement.Implements
             using var context = new STODatabase();
 
             if (model.DateTo.HasValue && model.DataFrom.HasValue) {
-                return context.Maintenances.Include(x => x.Cars).ThenInclude(x => x.Car).Where(x => (x.DateCreate >= model.DateTo && x.DateCreate <= model.DataFrom)).Select(x => x.GetViewModel).ToList();
+                return context.Maintenances.Include(x => x.Cars).ThenInclude(x => x.Car).Where(x => (x.DateCreate <= model.DateTo && x.DateCreate >= model.DataFrom)).Select(x => x.GetViewModel).ToList();
             }
 
             return context.Maintenances.Include(x => x.Cars).ThenInclude(x => x.Car).Select(x => x.GetViewModel).ToList();
