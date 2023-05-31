@@ -198,5 +198,12 @@ namespace STOEmployer.Controllers
 
             return Redirect("~/Home/IndexCar");
         }
+
+
+		[HttpPost]
+		public IActionResult Imitation() {
+			_storekeeperLogic.Imitation();
+            return Redirect("~/Home/IndexCar");
+        }
     }
 }

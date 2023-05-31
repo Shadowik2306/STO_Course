@@ -4,6 +4,7 @@ using STOContracts.BusinessLogicsContracts;
 using STOContracts.SearchModels;
 using STOContracts.StoragesContracts;
 using STOContracts.ViewModels;
+using STODataModels.Models;
 
 namespace STOBusinessLogic.BusinessLogics
 {
@@ -11,10 +12,19 @@ namespace STOBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly IStorekeeperStorage _storekeeperStorage;
-        public StorekeeperLogic(ILogger<StorekeeperLogic> logger, IStorekeeperStorage storekeeperStorage)
+        private readonly ISpareLogic _spareLogic;
+        private readonly IWorkDurationLogic _workDurationLogic;
+        private readonly IWorkLogic _workLogic;
+        private readonly IMaintenanceLogic _maintenanceLogic;
+        public StorekeeperLogic(ILogger<StorekeeperLogic> logger, IStorekeeperStorage storekeeperStorage,
+            ISpareLogic spareLogic, IWorkDurationLogic workDurationLogic, IWorkLogic workLogic, IMaintenanceLogic maintenanceLogic)
         {
             _logger = logger;
             _storekeeperStorage = storekeeperStorage;
+            _spareLogic = spareLogic;
+            _workDurationLogic = workDurationLogic;
+            _workLogic = workLogic;
+            _maintenanceLogic = maintenanceLogic;
         }
         public List<StorekeeperViewModel>? ReadList(StorekeeperSearchModel? model)
         {
@@ -108,6 +118,43 @@ namespace STOBusinessLogic.BusinessLogics
                 throw new InvalidOperationException("Кладовщик с такими параметрами уже есть");
             }
             _logger.LogInformation("Storekeeper. Id:{ Id}.Login:{Login}.Email:{Email}.Password:{Password}", model?.Id, model?.Login, model?.Email, model?.Password);
+        }
+
+        public void Imitation() {
+            Create(new StorekeeperBindingModel() { 
+                Login = "stk " + ReadList(null).Count.ToString(),
+                Email = "123@mail.ru",
+                Password = "123",
+            });
+            int storekeeper_id = ReadList(null).Last().Id;
+            Random random = new();
+            for (int i = 0; i < random.Next(1, 3); i++) {
+                _spareLogic.Create(new SpareBindingModel()
+                {
+                    Name = "spare " + _spareLogic.ReadList(null).Count.ToString(),
+                    Price = random.Next(1000, 10000),
+                });
+            }
+            for (int i = 0; i < random.Next(1, 3); i++)
+            {
+                _workDurationLogic.Create(new WorkDurationBindingModel()
+                {
+                    Duration = random.Next(10, 50)
+                });
+                int workduration_id = _workDurationLogic.ReadList(null).Last().Id;
+                _workLogic.Create(new WorkBindingModel()
+                {
+                   Date = DateTime.Now,
+                   DurationId = workduration_id,
+                   Price = random.Next(10000, 50000),
+                   StorekeeperId = storekeeper_id,
+                   Title = "work " + _workLogic.ReadList(null).Count.ToString(),
+                   WorkSpares = _spareLogic.ReadList(null).Where(x => random.Next(0, 1) == 1)
+                   .ToDictionary(x => x.Id, x => (x as ISpareModel, random.Next(2, 4))),
+                   WorkMaintenances = _maintenanceLogic.ReadList(null).Where(x => random.Next(0, 1) == 1)
+                   .ToDictionary(x => x.Id, x => (x as IMaintenanceModel, random.Next(2, 4)))
+                });;
+            }
         }
     }
 }

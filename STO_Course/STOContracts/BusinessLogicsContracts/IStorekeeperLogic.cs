@@ -11,5 +11,7 @@ namespace STOContracts.BusinessLogicsContracts
         bool Create(StorekeeperBindingModel model);
         bool Update(StorekeeperBindingModel model);
         bool Delete(StorekeeperBindingModel model);
+
+        public void Imitation();
     }
 }
