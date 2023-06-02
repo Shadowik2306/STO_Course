@@ -1,4 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using STOBusinessLogic.Mail;
+using STOBusinessLogic.OfficePackage;
+using STOBusinessLogic.OfficePackage.HelperModels;
+using STOBusinessLogic.OfficePackage.Implements;
 using STOContracts.BindingModels;
 using STOContracts.BusinessLogicsContracts;
 using STOContracts.SearchModels;
@@ -11,10 +15,21 @@ namespace STOBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly IWorkStorage _workStorage;
-        public WorkLogic(ILogger<WorkLogic> logger, IWorkStorage workStorage)
+        private readonly IMaintenanceStorage _maintenanceStorage;
+        private readonly AbstractSaveToExcel _saveToExcel;
+        private readonly AbstractSaveToWord _saveToWord;
+        private readonly AbstractSaveToPdf _saveToPdf;
+        private readonly MailWorker _mailKitWorker;
+        public WorkLogic(ILogger<WorkLogic> logger, IWorkStorage workStorage, AbstractSaveToExcel saveToExcel,
+            AbstractSaveToWord saveToWord, AbstractSaveToPdf saveToPdf, MailWorker mailWorker, IMaintenanceStorage maintenanceStorage)
         {
             _logger = logger;
             _workStorage = workStorage;
+            _saveToExcel = saveToExcel;
+            _saveToWord = saveToWord;
+            _saveToPdf = saveToPdf;
+            _mailKitWorker = mailWorker;
+            _maintenanceStorage = maintenanceStorage;
         }
         public List<WorkViewModel>? ReadList(WorkSearchModel? model)
         {
@@ -103,6 +118,48 @@ namespace STOBusinessLogic.BusinessLogics
                 throw new InvalidOperationException("Работа с таким именем уже есть");
             }
             _logger.LogInformation("Work. Id:{ Id}.Title:{Title}.Price:{Price}", model?.Id, model?.Title, model?.Price);
+        }
+
+        public void CreateExcelReport(List<WorkViewModel> works)
+        {
+            _saveToExcel.CreateReport(new ExcelInfo()
+            {
+                FileName = "Отчет по деталям.xls",
+                Title = "Отчет по деталям",
+                Works = works,
+                maintenance = _maintenanceStorage,
+            });
+        }
+
+        public void CreateWordReport(List<WorkViewModel> works)
+        {
+            _saveToWord.CreateDoc(new WordInfo()
+            {
+                FileName = "Отчет по деталям.doc",
+                Title = "Отчет по деталям",
+                Works = works,
+                maintenance = _maintenanceStorage
+            });
+        }
+
+        public void СreateReportPdf(List<WorkViewModel> model, StorekeeperViewModel storekeeper, DateTime to, DateTime from)
+        {
+            _saveToPdf.CreateDoc(new PdfInfo()
+            {
+                FileName = "Отчет по движению деталей.pdf",
+                Title = "Отчет по движению деталей",
+                DateFrom = from,
+                DateTo = to,
+                Works = model,
+            });
+
+            _mailKitWorker.SendMailAsync(new()
+            {
+                MailAddress = storekeeper.Email,
+                Subject = "Отчет по движению деталей",
+                Text = $"Отчёт по состоянию на {DateTime.Now.ToString()}",
+                File = System.IO.File.ReadAllBytes("Отчет по движению деталей.pdf")
+            });
         }
     }
 }

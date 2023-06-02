@@ -86,5 +86,12 @@ namespace STODatabaseImplement.Implements
             return null;
         }
 
+        public List<CarViewModel>? GetCars(MaintenanceSearchModel model)
+        {
+            using var context = new STODatabase();
+            return context.MaintenanceCars.Where(x => x.MaintenanceId == model.Id)
+                .Select(x => context.Cars.Where(y => y.Id == x.CarId)
+                .Select(y => y.GetViewModel).First()).ToList();
+        }
     }
 }

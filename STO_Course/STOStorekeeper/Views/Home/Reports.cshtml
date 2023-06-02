@@ -1,0 +1,17 @@
+﻿@{
+	ViewData["Title"] = "Reports";
+}
+
+<div class="text-center">
+	<h2 class="display-4">Отчеты</h2>
+</div>
+
+<div class="text-center">
+
+	<form method="post">
+		<input id="dateFrom" name="dateFrom" class="form-control" type="date"/>
+		<input id="dateTo" name="dateTo" class="form-control" type="date"/>
+		<button style="width:100%" class="btn btn-lg btn-block" type="submit" asp-controller="Home" asp-action="CreateExcellReport">Создать xls отчёт</button>
+		<button style="width:100%" class="btn btn-lg btn-block" type="submit" asp-controller="Home" asp-action="CreateWordReport">Создать word отчёт </button>
+		<button style="width:100%" class="btn btn-lg btn-block" type="submit" asp-controller="Home" asp-action="CreatePdfReport">Создать pdf отчёт</button>
+	</form>

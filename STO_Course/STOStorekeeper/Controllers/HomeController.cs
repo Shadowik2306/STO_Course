@@ -4,6 +4,7 @@ using STOContracts.BindingModels;
 using STOContracts.BusinessLogicsContracts;
 using STOContracts.SearchModels;
 using STOContracts.ViewModels;
+using STODatabaseImplement.Models;
 using STODataModels.Models;
 using STOEmployer.Models;
 using System.Diagnostics;
@@ -174,5 +175,38 @@ namespace STOEmployer.Controllers
 
             return Redirect("~/Home/IndexWork");
         }
+
+
+        [HttpGet]
+        public IActionResult Reports()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateExcellReport()
+        {
+            _workLogic.CreateExcelReport(_workLogic.ReadList(null));
+            return Redirect("~/Home/IndexWork");
+        }
+
+        [HttpPost]
+        public IActionResult CreateWordReport()
+        {
+            _workLogic.CreateWordReport(_workLogic.ReadList(null));
+            return Redirect("~/Home/IndexWork");
+        }
+
+        [HttpPost]
+        public IActionResult CreatePdfReport(DateTime dateFrom, DateTime dateTo)
+        {
+            _workLogic.СreateReportPdf(_workLogic.ReadList(new WorkSearchModel()
+            {
+                DateFrom = dateFrom,
+                DateTo = dateTo,
+            }), Storekeeper, dateTo, dateFrom);
+            return Redirect("~/Home/IndexWork");
+        }
+
     }
 }
