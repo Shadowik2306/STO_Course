@@ -16,7 +16,7 @@ namespace STOEmployer.Controllers
 	{
 		private readonly ILogger<HomeController> _logger;
 
-        public static StorekeeperViewModel? Storekeeper { get; set; } = null;
+		public static StorekeeperViewModel? Storekeeper { get; set; } = null;
 
 		public readonly IEmployerLogic _employerLogic;
 		public readonly IMaintenanceLogic _maintenanceLogic;
@@ -39,26 +39,29 @@ namespace STOEmployer.Controllers
 			_serviceLogic = serviceLogic;
 			_storekeeperLogic = storekeeperLogic;
 			_maintenanceLogic = maintenanceLogic;
-			_workDurationLogic= workDurationLogic;
+			_workDurationLogic = workDurationLogic;
 			_workLogic = workLogic;
 		}
 
 		[HttpGet]
-		public IActionResult Privacy() {
-            if (Storekeeper is not null)
-            {
-                return Redirect("IndexWork");
-            }
-            return View();
+		public IActionResult Privacy()
+		{
+			if (Storekeeper is not null)
+			{
+				return Redirect("IndexWork");
+			}
+			return View();
 		}
 
 		[HttpGet]
-		public IActionResult Register() {
+		public IActionResult Register()
+		{
 			return View(Storekeeper);
 		}
 
 		[HttpPost]
-		public IActionResult Register(string login, string email, string password) {
+		public IActionResult Register(string login, string email, string password)
+		{
 			_storekeeperLogic.Create(new StorekeeperBindingModel()
 			{
 				Login = login,
@@ -70,12 +73,14 @@ namespace STOEmployer.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult Enter() {
+		public IActionResult Enter()
+		{
 			return View();
 		}
 
 		[HttpPost]
-		public IActionResult Enter(string login, string password) {
+		public IActionResult Enter(string login, string password)
+		{
 			Storekeeper = _storekeeperLogic.ReadElement(new StorekeeperSearchModel()
 			{
 				Login = login,
@@ -86,52 +91,55 @@ namespace STOEmployer.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult IndexSpare() {
-            if (Storekeeper is null)
-            {
-                return Redirect("~/Home/Privacy");
-            }
-            return View(_spareLogic.ReadList(null));
-        }
+		public IActionResult IndexSpare()
+		{
+			if (Storekeeper is null)
+			{
+				return Redirect("~/Home/Privacy");
+			}
+			return View(_spareLogic.ReadList(null));
+		}
 
-        [HttpGet]
-        public IActionResult IndexWork()
-        {
-            if (Storekeeper is null)
-            {
-                return Redirect("~/Home/Privacy");
-            }
-            return View(_workLogic.ReadList(null));
-        }
+		[HttpGet]
+		public IActionResult IndexWork()
+		{
+			if (Storekeeper is null)
+			{
+				return Redirect("~/Home/Privacy");
+			}
+			return View(_workLogic.ReadList(null));
+		}
 
 
-        [HttpGet]
-        public IActionResult CreateSpare()
-        {
-            if (Storekeeper is null)
-            {
-                return Redirect("~/Home/Privacy");
-            }
+		[HttpGet]
+		public IActionResult CreateSpare()
+		{
+			if (Storekeeper is null)
+			{
+				return Redirect("~/Home/Privacy");
+			}
 
-            return View();
-        }
+			return View();
+		}
 
 		[HttpPost]
-		public IActionResult CreateSpare(string name, int price) {
-			_spareLogic.Create(new SpareBindingModel() { 
+		public IActionResult CreateSpare(string name, int price)
+		{
+			_spareLogic.Create(new SpareBindingModel()
+			{
 				Name = name,
 				Price = price
 			});
 			return Redirect("~/Home/IndexSpare");
 		}
 
-        [HttpGet]
-        public IActionResult CreateWork()
-        {
-            if (Storekeeper is null)
-            {
-                return Redirect("~/Home/Privacy");
-            }
+		[HttpGet]
+		public IActionResult CreateWork()
+		{
+			if (Storekeeper is null)
+			{
+				return Redirect("~/Home/Privacy");
+			}
 
 			CheckboxWorkViewModel model = new CheckboxWorkViewModel();
 
@@ -144,19 +152,21 @@ namespace STOEmployer.Controllers
 				Object = x
 			}).ToList();
 
-			model.Spares = _spareLogic.ReadList(null).Select(x => new CheckboxViewModel() {
-                Id = x.Id,
-                LabelName = x.Name,
-                IsChecked = false,
-                Count = 0,
-                Object = x
-            }).ToList();
+			model.Spares = _spareLogic.ReadList(null).Select(x => new CheckboxViewModel()
+			{
+				Id = x.Id,
+				LabelName = x.Name,
+				IsChecked = false,
+				Count = 0,
+				Object = x
+			}).ToList();
 
-            return View(model);
-        }
+			return View(model);
+		}
 
 		[HttpPost]
-		public IActionResult CreateWork(CheckboxWorkViewModel SparesAndMaintenances, int duration, int price, string title) {
+		public IActionResult CreateWork(CheckboxWorkViewModel SparesAndMaintenances, int duration, int price, string title)
+		{
 			_workDurationLogic.Create(new WorkDurationBindingModel()
 			{
 				Duration = duration,
@@ -171,42 +181,48 @@ namespace STOEmployer.Controllers
 				Price = price,
 				WorkMaintenances = SparesAndMaintenances.Maintenance.Where(x => x.IsChecked).ToDictionary(x => x.Id, x => (x.Object as IMaintenanceModel, x.Count)),
 				WorkSpares = SparesAndMaintenances.Spares.Where(x => x.IsChecked).ToDictionary(x => x.Id, x => (x.Object as ISpareModel, x.Count)),
-			}); 
+			});
 
-            return Redirect("~/Home/IndexWork");
-        }
+			return Redirect("~/Home/IndexWork");
+		}
 
 
-        [HttpGet]
-        public IActionResult Reports()
-        {
-            return View();
-        }
+		[HttpGet]
+		public IActionResult Reports()
+		{
+			return View();
+		}
 
-        [HttpPost]
-        public IActionResult CreateExcellReport()
-        {
-            _workLogic.CreateExcelReport(_workLogic.ReadList(null));
-            return Redirect("~/Home/IndexWork");
-        }
+		[HttpPost]
+		public IActionResult CreateExcellReport()
+		{
+			_workLogic.CreateExcelReport(_workLogic.ReadList(null));
+			return Redirect("~/Home/IndexWork");
+		}
 
-        [HttpPost]
-        public IActionResult CreateWordReport()
-        {
-            _workLogic.CreateWordReport(_workLogic.ReadList(null));
-            return Redirect("~/Home/IndexWork");
-        }
+		[HttpPost]
+		public IActionResult CreateWordReport()
+		{
+			_workLogic.CreateWordReport(_workLogic.ReadList(null));
+			return Redirect("~/Home/IndexWork");
+		}
 
-        [HttpPost]
-        public IActionResult CreatePdfReport(DateTime dateFrom, DateTime dateTo)
-        {
-            _workLogic.СreateReportPdf(_workLogic.ReadList(new WorkSearchModel()
-            {
-                DateFrom = dateFrom,
-                DateTo = dateTo,
-            }), Storekeeper, dateTo, dateFrom);
-            return Redirect("~/Home/IndexWork");
-        }
+		[HttpPost]
+		public IActionResult CreatePdfReport(DateTime dateFrom, DateTime dateTo)
+		{
+			_workLogic.СreateReportPdf(_workLogic.ReadList(new WorkSearchModel()
+			{
+				DateFrom = dateFrom,
+				DateTo = dateTo,
+			}), Storekeeper, dateTo, dateFrom);
+			return Redirect("~/Home/IndexWork");
+		}
 
-    }
+		[HttpPost]
+		public IActionResult Emulation()
+		{
+			_employerLogic.Emulation();
+			return Redirect("~/Home/IndexWork");
+		}
+	}
 }

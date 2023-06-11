@@ -144,7 +144,7 @@ namespace STOBusinessLogic.BusinessLogics
 
         public void СreateReportPdf(List<WorkViewModel> model, StorekeeperViewModel storekeeper, DateTime to, DateTime from)
         {
-            _saveToPdf.CreateDoc(new PdfInfo()
+            _saveToPdf.CreatePDF(new PdfInfo()
             {
                 FileName = "Отчет по движению деталей.pdf",
                 Title = "Отчет по движению деталей",

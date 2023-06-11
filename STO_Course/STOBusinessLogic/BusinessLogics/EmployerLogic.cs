@@ -11,10 +11,16 @@ namespace STOBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly IEmployerStorage _employerStorage;
-        public EmployerLogic(ILogger<EmployerLogic> logger, IEmployerStorage employerStorage)
+        private readonly IMaintenanceLogic _maintenanceLogic;
+        private readonly IServiceLogic _serviceLogic;
+        private readonly ICarLogic _carLogic;
+        public EmployerLogic(ILogger<EmployerLogic> logger, IEmployerStorage employerStorage, IMaintenanceLogic maintenanceLogic, IServiceLogic serviceLogic, ICarLogic carLogic)
         {
             _logger = logger;
             _employerStorage = employerStorage;
+            _maintenanceLogic = maintenanceLogic;
+            _serviceLogic = serviceLogic;
+            _carLogic = carLogic;
         }
         public List<EmployerViewModel>? ReadList(EmployerSearchModel? model)
         {
@@ -106,6 +112,35 @@ namespace STOBusinessLogic.BusinessLogics
                 throw new InvalidOperationException("работник с таким логином уже есть");
             }
             _logger.LogInformation("Employer. EmployerId:{ Id}.EmployerLogin:{EmployerLogin}.EmployerEmail:{EmployerEmail}", model?.Id, model?.Login, model?.Email);
+        }
+
+        public void Emulation() {
+            Create(new EmployerBindingModel() { 
+                Email = "1@1",
+                Login = "emp" + ReadList(null).Count,
+                Password = "123"
+            });
+
+            Random random = new Random();
+
+            for (int i = 0; i < random.Next(1, 4); i++) {
+                _maintenanceLogic.Create(new MaintenanceBindingModel()
+                {
+                    Cost = random.Next(1000, 100000),
+                    DateCreate = DateTime.Now,
+                    EmployerId = ReadList(null).Count - 1
+                });
+            }
+
+            for (int i = 0; i < random.Next(1, 4); i++)
+            {
+                _carLogic.Create(new CarBindingModel()
+                {
+                    Brand = "Unknown",
+                    Model = "Car " + _carLogic.ReadList(null).Count,
+                    VIN = "None",
+                });
+            }
         }
     }
 }

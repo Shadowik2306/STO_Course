@@ -11,5 +11,7 @@ namespace STOContracts.BusinessLogicsContracts
         bool Create(EmployerBindingModel model);
         bool Update(EmployerBindingModel model);
         bool Delete(EmployerBindingModel model);
+
+       void Emulation();
     }
 }

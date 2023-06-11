@@ -28,15 +28,12 @@ namespace STODatabaseImplement.Implements
 
         public List<WorkViewModel> GetFilteredList(WorkSearchModel model)
         {
-            if(string.IsNullOrEmpty(model.Title))
-            {
-                return new();
-            }
             using var context = new STODatabase();
             return context.Works.Include(x => x.Duration).Include(x => x.Spares)
                 .ThenInclude(x => x.Spare)
                 .Include(x => x.Maintenances)
                 .ThenInclude(x => x.Maintenance)
+                .Where(x => x.Date <= model.DateTo && x.Date >= model.DateFrom)
                 .Select(x => x.GetViewModel).ToList();
         }
 
