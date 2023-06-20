@@ -4,6 +4,7 @@ using STOContracts.BusinessLogicsContracts;
 using STOContracts.SearchModels;
 using STOContracts.StoragesContracts;
 using STOContracts.ViewModels;
+using STODataModels.Models;
 
 namespace STOBusinessLogic.BusinessLogics
 {
@@ -123,15 +124,6 @@ namespace STOBusinessLogic.BusinessLogics
 
             Random random = new Random();
 
-            for (int i = 0; i < random.Next(1, 4); i++) {
-                _maintenanceLogic.Create(new MaintenanceBindingModel()
-                {
-                    Cost = random.Next(1000, 100000),
-                    DateCreate = DateTime.Now,
-                    EmployerId = ReadList(null).Count - 1
-                });
-            }
-
             for (int i = 0; i < random.Next(1, 4); i++)
             {
                 _carLogic.Create(new CarBindingModel()
@@ -139,6 +131,21 @@ namespace STOBusinessLogic.BusinessLogics
                     Brand = "Unknown",
                     Model = "Car " + _carLogic.ReadList(null).Count,
                     VIN = "None",
+                  
+                });
+            }
+
+            for (int i = 0; i < random.Next(1, 4); i++)
+            {
+                var carId = random.Next(1, _carLogic.ReadList(null).Count - 1);
+                var dct = new Dictionary<int, (ICarModel, int)>();
+                dct.Add(carId, (_carLogic.ReadElement(new CarSearchModel() { Id = carId }) as ICarModel, random.Next(1, 23)));
+                _maintenanceLogic.Create(new MaintenanceBindingModel()
+                {
+                    Cost = random.Next(1000, 100000),
+                    DateCreate = DateTime.Now,
+                    EmployerId = ReadList(null).Count - 1,
+                    MaintenanceCars = dct,
                 });
             }
         }
